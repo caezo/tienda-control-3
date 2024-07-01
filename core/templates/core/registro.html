@@ -1,0 +1,157 @@
+{% extends "core/base.html" %}
+{%load static%}
+{% block content %}
+
+    <div id="menu"></div>
+<br>
+    <h1 class="text-center">Registro de Cliente</h1>
+    <br>
+    
+    <!-- Formulario de registro de cliente -->
+    <form id="registro" class="row g-3 needs-validation" novalidate>
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <!-- Campos del formulario -->
+                <div class="col-sm-12 col-md-4">
+
+                    <!-- Campo RUT -->
+                    <div class="mb-3">
+                        <label for="rut" class="form-label textonegro">RUT</label>
+                        <input required placeholder="Ej: 123456789-K" 
+                            type="text" class="form-control" 
+                            id="rut" name="rut" aria-describedby="rutHelp">
+                        <div id="rutHelp" class="form-text">
+                            Escribe el RUT sin puntos y con guión.
+                        </div>
+                        <div class="invalid-feedback">
+                            El campo RUT es obligatorio
+                        </div>
+                    </div>
+
+                    <!-- Campo Nombre -->
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label textonegro">Nombre</label>
+                        <input required placeholder="Ej: Jose" 
+                            type="text" class="form-control" 
+                            id="nombre" name="nombre" aria-describedby="nombreHelp">
+                        <div id="nombreHelp" class="form-text">
+                            Escribe tu nombre.
+                        </div>
+                        <div class="invalid-feedback">
+                            El campo Nombre es obligatorio
+                        </div>
+                    </div>
+
+                    <!-- Campo Apellido -->
+                    <div class="mb-3">
+                        <label for="apellido" class="form-label textonegro">Apellido</label>
+                        <input required placeholder="Ej: González" 
+                            type="text" class="form-control" 
+                            id="apellido" name="apellido" aria-describedby="apellidoHelp">
+                        <div id="apellidoHelp" class="form-text">
+                            Escribe tu apellido.
+                        </div>
+                        <div class="invalid-feedback">
+                            El campo Apellido es obligatorio
+                        </div>
+                    </div>
+
+                    <!-- Campo Correo -->
+                    <div class="mb-3">
+                        <label for="correo" class="form-label textonegro">Email</label>
+                        <input required placeholder="Ej: jesus@gmail.com" 
+                            type="text" class="form-control" 
+                            id="correo" name="correo" aria-describedby="correoHelp">
+                        <div id="correoHelp" class="form-text">
+                            Escribe su Email.
+                        </div>
+                        <div class="invalid-feedback">
+                            El campo Email es obligatorio
+                        </div>
+                    </div>
+
+                    <!-- Campo direccion -->
+                    <div class="mb-3">
+                        <label for="direccion" class="form-label textonegro">Dirección</label>
+                        <textarea required placeholder="Ej: Calle Falsa 123. Springfield " 
+                            class="form-control" rows="3"
+                            id="direccion" name="direccion" aria-describedby="direccionHelp"></textarea>
+                        <div id="direccionHelp" class="form-text">
+                            Escribe tu dirección.
+                        </div>
+                        <div class="invalid-feedback">
+                            El campo Dirección es obligatorio
+                        </div>
+                    </div>
+
+                    <!-- Campo Subscrito -->
+                    <div class="mb-3">
+                        <label for="subscrito" class="form-label textonegro">Con Suscripción</label>
+                        <input type="checkbox" id="subscrito" name="subscrito">
+                        <div id="subscritoHelp" class="form-text">
+                            Deseo suscribirme con un aporte de $5.000 mensuales
+                            y obtener un 5% de descuento en mis compras.
+                        </div>
+                    </div>
+
+                    <!-- Campo Contraseña -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label textonegro">Contraseña</label>
+                        <input type="password" required placeholder="Escribe aquí tu contraseña" 
+                            class="form-control"
+                            id="password" name="password" aria-describedby="passwordHelp">
+                        <div id="passwordHelp" class="form-text">
+                            La contraseña debe tener un número, un símbolo, 
+                            letras mayúsculas y minúsculas, y además debe
+                            tener al menos 8 caracteres.
+                        </div>
+                        <div class="invalid-feedback">
+                            El campo password es obligatorio
+                        </div>
+                    </div>
+
+                    <!-- Campo Repetir Contraseña -->
+                    <div class="mb-3">
+                        <label for="password2" class="form-label textonegro">Repetir Contraseña</label>
+                        <input type="password" required placeholder="Repite aquí tu contraseña" 
+                            class="form-control"
+                            id="password2" name="password2" aria-describedby="password2Help">
+                        <div id="password2Help" class="form-text">
+                            La contraseña debe ser igual a la de arriba.
+                        </div>
+                        <div class="invalid-feedback">
+                            El campo Repetir Contraseña es obligatorio
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Foto de perfil -->
+                <div class="col-sm-12 col-md-4">
+                    <img class="registro_foto" src="img/goku.jpg"  alt="">
+                    <br><br>
+                    <input type="file" class="btn btn-dark btn-block">
+                </div>
+            </div>
+            <!-- Botonera -->
+            <div class="row">
+                <div class="col text-center">
+                    <button type="submit" class="btn btn-dark btn-block">Guardar</button>&nbsp;&nbsp;
+                    <button type="reset" class="btn btn-dark btn-block">Limpiar</button>
+                </div>
+            </div>
+        </div>  
+    </form>
+    <br>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" 
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
+            integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" 
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="js/script.js"></script>
+    <script src="js/validar_resgistro.js"></script>
+{%endblock content%}

@@ -1,0 +1,90 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+
+
+<div id="menu"></div>
+<div class="container">
+    <h1 class="text-center">
+        Concursa por una prenda de vestir!!
+    </h1>
+    <p class="text-center" style="font-size: 25px;">Por compras superiores a $20.000 en productos ya estas participando!!!!</p>
+
+    <div class="row" id="products-container"></div>
+
+</div>
+
+
+{% endblock content %}
+
+{% block script %}
+
+<script>
+  $(document).ready(function() {
+    // Obtener datos de la API
+    $.get("http://fakestoreapi.com/products", function(data) {
+        // Mostrar los productos
+        data.forEach(function(product) {
+            $("#products-container").append(`
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+  <div class="colorfondo card box-shadow" style="height: 100%;">
+    <div class="text-center">
+        <img src="${product.image}" class="card-img-top thumbnail-producto" alt="${product.title}">
+    </div>
+    <div class="card-body">
+        <div class="lead text-dark fw-bold">
+            ${product.title}
+        </div>
+        <br>
+        <div class="precio-oferta textonegro">
+            $${product.price}
+        </div>
+        <b>Descripción</b>
+        <div class="text-truncate">
+            ${product.description}
+        </div>
+        <b>En stock ${product.stock} unidades</b>
+    </div>
+    <div class="card-footer d-flex justify-content-center text-center">
+        <div class="btn-group">
+            <button type="button" onclick="window.location.href='ficha.html'" class="btn btn-sm btn-dark">
+                Comprar
+            </button>
+            <button type="button" onclick="window.location.href='carrito.html'" class="btn btn-sm btn-dark">
+                Agregar al carrito
+            </button>
+        </div>
+    </div>
+  </div>
+  </div>
+  
+  
+  
+  
+  
+  
+  
+  
+            `);
+        });
+    });
+  });
+  
+  let totalPrice = 0;
+  
+  // Función para agregar productos al carrito
+  function addToCart(price) {
+    totalPrice += price;
+    $("#total-price").text(`$${totalPrice.toFixed(2)}`);
+  
+    // Verificar si califica para el concurso
+    if (totalPrice > 20000) {
+        $("#concurso-message").text("¡Felicidades! ¡Participas en el concurso!");
+    } else {
+        $("#concurso-message").text("");
+    }
+  }
+  </script>
+{% endblock script %}

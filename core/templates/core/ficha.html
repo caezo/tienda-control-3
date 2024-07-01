@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+
+    <form method="post" id="formulario-ficha">
+
+        {% csrf_token %}
+        <div class="borde fondo_negro container" style="background-color: white">
+            <div class="card border-0">
+              <div class="row">
+                <div class="col-md-4">
+                  <img
+                    src="/media/{{ imagen }}"
+                    alt="Nombre del Videojuego"
+                    class="card-img-top imagen-producto"
+                  />
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h2 class="card-title">{{ nombre }}</h2>
+                    <div class="precio-oferta lead fw-bold">{{ html_estado|safe }}  </div>
+                    <div class="lead text-secondary fw-bold">{{ html_stock|safe }}</div>
+                    <div class=" lead fw-bold">{{ html_precio|safe }}</div>
+                    <p class="card-text">{{ descripcion }}</p>
+          
+                    <!-- Botones -->
+                    <div>
+                        <input type="hidden" id="accion">
+                        <a href="{% url 'comprar_ahora' %}" class="btn btn-primary ancho-160px"> 
+                            Comprar ahora 
+                        </a>
+                          <a href="{% url 'agregar_producto_al_carrito' id %}" class="btn btn-secondary ancho-160px"> 
+                              Agregar al carrito 
+                          </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </form>
+
+{% endblock content %}
+
+{% block script %}
+    <script src="{% static 'core/js/ficha.js' %}"></script>
+{% endblock script %}

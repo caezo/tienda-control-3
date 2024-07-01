@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+
+<div id="menu"></div>
+<div class="container">
+  <div class="row justify-content-center align-items-center">
+    <div class="col-md-6">
+      <div class="card login-container">
+        <div class="fondo_negro borde card-body">
+          <h5 class="card-title text-center">Iniciar Sesión</h5>
+
+ 
+            <form id="form" method="POST" >
+        
+              {% csrf_token %} 
+              
+              <!-- Botones -->
+              {{ form|as_bootstrap_form }}
+              
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-dark"> Ingresar </button>
+              </div>
+              
+            </form>
+          
+          
+
+          <p class="mt-3 text-center">¿No tienes una cuenta? <a href="registrarme">Regístrate aquí</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Combobox de usuarios (QUITAR EN VERSION DE PRODUCCION DEL SOFTWARE) -->
+  <!-- NO LO BORRES PARA QUE PUEDAS HACER TUS PRUEBAS MAS RAPIDAMENTE  -->
+  {% include 'common/combobox_usuarios.html' %}
+  
+{% endblock content %}
+
+{% block script %}
+  <script src="{% static 'core/js/ingresar.js' %}"></script>
+{% endblock script %}

@@ -1,0 +1,77 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+<div id="menu_usuario"></div>
+
+<div class="container mt-5">
+  <h1 class="text-center">Carrito de Compras</h1>
+  <br>
+  <table class=" fondo_negro borde table table-bordered table-hover">
+    <thead class="table">
+      <th scope="col">#</th>
+      <th scope="col" class="d-none d-lg-blok d-lg-table-cell ">Categoría</th>
+      <th scope="col">Producto</th>
+      <th scope="col">Precio</th>
+      <th scope="col"class="d-none d-lg-blok d-lg-table-cell ">Suscriptor</th>
+      <th scope="col"class="d-none d-lg-blok d-lg-table-cell ">Oferta</th>
+      <th scope="col"class="d-none d-lg-blok d-lg-table-cell ">Descuentos (%)</th>
+      <th scope="col"class="d-none d-lg-blok d-lg-table-cell ">Descuentos ($)</th>
+      <th scope="col">Precio</th>
+      <th scope="col">Opciones</th>
+    </thead>
+    <tbody>
+        {% for item in detalle_carrito %}
+                <tr>
+                    <td> {{ item.id }} </td>
+                    <td> {{ item.producto.categoria.nombre }} </td>
+                    <td> {{ item.producto.nombre }} </td>
+                    <td> {{ item.precio|formatear_dinero }} </td>
+                    <td> {{ item.descuento_subscriptor|formatear_porcentaje }} </td>
+                    <td> {{ item.descuento_oferta|formatear_porcentaje }} </td>
+                    <td> {{ item.descuento_total|formatear_porcentaje }} </td>
+                    <td class="text-end"> {{ item.descuentos|formatear_dinero }} </td>
+                    <td class="text-end"> {{ item.precio_a_pagar|formatear_dinero }} </td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{% url 'ficha' item.producto.id %}" class="btn btn-sm btn-dark"> Detalle </a> 
+                            <a href="{% url 'eliminar_producto_en_carrito' item.id %}" class="btn btn-sm btn-danger"> Eliminar </a> 
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+      
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="row">
+    <div class="col textonegro">
+      <table class="tabla-fondo-blanco " style="float: right">
+        <tr>
+          <td>Precio sin IVA $</td>
+          <td class="fw-bold text-end ">{{ monto_sin_iva|formatear_dinero }}</td>
+        </tr>
+        <tr>
+          <td>Valor del IVA $</td>
+          <td class="fw-bold text-end">{{ iva|formatear_dinero }}</td>
+        </tr>
+        <tr>
+          <td>Total a Pagar $</td>
+          <td class="fw-bold text-end">{{ total_a_pagar|formatear_dinero }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  
+  <br>
+  <div class="d-flex justify-content-end">
+    <a href="{% url 'vaciar_carrito' %}" class="borde_redondo btn btn-dark mb-2"> Vaciar carrito </a>
+    <a href="#" class="borde_redondo btn btn-dark mb-2"> Continuar al pago </a>
+  </div>
+  
+</div>
+
+  
+{% endblock content %}

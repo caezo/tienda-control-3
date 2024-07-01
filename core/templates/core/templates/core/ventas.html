@@ -1,0 +1,119 @@
+{% extends "core/base.html" %}
+{%load static%}
+{% block content %}
+
+    <div id="menu"></div>
+    <h1>Historial de ventas</h1>
+    <div class="container-fluid">
+      <div class="row">
+          <div class="col">
+              <table class="table table-hover" id="historial_tabla">
+                  <thead>
+                      <tr>
+                          <th class="text-center">Nro Boleta</th>
+                          <th class="text-center d-none d-lg-block d-lg-table-cell">Fecha</th>
+                          <th class="text-center">Nombre Cliente</th>
+                          <th class="text-center d-none d-lg-block d-lg-table-cell"">Subscriptor</th>
+                          <th class="text-center d-none d-lg-block d-lg-table-cell">Monto Total</th>
+                          <th>Estado Actual</th>
+                          <th class="text-center">Detalle</th>
+                          <th class="text-center">Cambiar Estado</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td class="text-center">001</td>
+                          <td class="text-center d-none d-lg-block d-lg-table-cell">2024-04-15</td>
+                          <td class="text-center">Cliente A</td>
+                          <td class="text-center d-none d-lg-block d-lg-table-cell">Si</td>
+                          <td class="text-center d-none d-lg-block d-lg-table-cell">$150.000</td>
+                          <td class="text-center">Entregado</td>
+                          <td class="text-center">
+                              <button type="button" class="btn btn-primary btn-sm">Ver Detalles</button>
+                          </td>
+                          <td class="text-center">
+                            <button type="button" class="btn btn-danger btn-sm">Anulado</button>
+                            <button type="button" class="btn btn-secondary btn-sm">Vendido</button>
+                            <button type="button" class="btn btn-warning btn-sm">Despachado</button>
+                            <button type="button" class="btn btn-success btn-sm">Entregado</button>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="text-center" >002</td>
+                          <td class="text-center d-none d-lg-block d-lg-table-cell">2024-04-16</td>
+                          <td class="text-center">Cliente B</td>
+                          <td class="text-center d-none d-lg-block d-lg-table-cell">No</td>
+                          <td class="text-center d-none d-lg-block d-lg-table-cell">$80.000</td>
+                          <td class="text-center">En Proceso</td>
+                          <td class="text-center">
+                            <button type="button" class="btn btn-primary btn-sm">Ver Detalles</button>
+                        </td>
+                        <td class="text-center">
+                          <button type="button" class="btn btn-danger btn-sm">Anulado</button>
+                          <button type="button" class="btn btn-secondary btn-sm">Vendido</button>
+                          <button type="button" class="btn btn-warning btn-sm">Despachado</button>
+                          <button type="button" class="btn btn-success btn-sm">Entregado</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">002</td>
+                        <td class="text-center d-none d-lg-block d-lg-table-cell">2024-04-20</td>
+                        <td class="text-center">Cliente E</td>
+                        <td class="text-center d-none d-lg-block d-lg-table-cell">No</td>
+                        <td class="text-center d-none d-lg-block d-lg-table-cell">$80.000</td>
+                        <td class="text-center">En Proceso</td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-primary btn-sm">Ver Detalles</button>
+                        </td>
+                        <td class="text-center">
+                          <button type="button" class="btn btn-danger btn-sm">Anulado</button>
+                          <button type="button" class="btn btn-secondary btn-sm">Vendido</button>
+                          <button type="button" class="btn btn-warning btn-sm">Despachado</button>
+                          <button type="button" class="btn btn-success btn-sm">Entregado</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center"">002</td>
+                        <td class="text-center d-none d-lg-block d-lg-table-cell">2024-07-111</td>
+                        <td class="text-center">Cliente D</td>
+                        <td class="text-center d-none d-lg-block d-lg-table-cell">Si</td>
+                        <td class="text-center d-none d-lg-block d-lg-table-cell">$50.000</td>
+                        <td class="text-center">En Proceso</td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-primary btn-sm">Ver Detalles</button>
+                        </td>
+                        <td class="text-center">
+                          <button type="button" class="btn btn-danger btn-sm">Anulado</button>
+                          <button type="button" class="btn btn-secondary btn-sm">Vendido</button>
+                          <button type="button" class="btn btn-warning btn-sm">Despachado</button>
+                          <button type="button" class="btn btn-success btn-sm">Entregado</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">007</td>
+                        <td class="text-center d-none d-lg-block d-lg-table-cell">2024-04-16</td>
+                        <td class="text-center">Cliente H</td>
+                        <td class="text-center d-none d-lg-block d-lg-table-cell"">Si</td>
+                        <td class="text-center d-none d-lg-block d-lg-table-cell">$800.000</td>
+                        <td class="text-center">Entregado</td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-primary btn-sm">Ver Detalles</button>
+                        </td>
+                        <td class="text-center">
+                          <button type="button" class="btn btn-danger btn-sm">Anulado</button>
+                          <button type="button" class="btn btn-secondary btn-sm">Vendido</button>
+                          <button type="button" class="btn btn-warning btn-sm">Despachado</button>
+                          <button type="button" class="btn btn-success btn-sm">Entregado</button>
+                        </td>
+                    </tr>
+                      <!-- Puedes agregar más filas según sea necesario -->
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+
+    
+    <script src="js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+{%endblock content%}

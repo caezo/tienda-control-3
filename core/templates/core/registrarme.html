@@ -1,0 +1,64 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+  <div class="card" style="background-color: #f8f9fa;">
+    <div class="card-header text-center">
+      <h3>Formulario de Registro</h3>
+    </div>
+    <div class="card-body">
+      <form id="form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- ÁREA DE DATOS BÁSICOS: username, nombre, apellidos, correo y contraseñas -->
+        <div class="row">
+          <div class="col-sm-12">
+            <h4>Datos de Usuario</h4>
+            {{ form_usuario|as_bootstrap_form }}
+          </div>
+        </div>
+
+        <!-- ÁREA DE DATOS DE PERFIL: rut, dirección y subscrito -->
+        <div class="row mt-4">
+          <div class="col-sm-12">
+            <h4>Datos de Perfil</h4>
+            {{ form_perfil.rut|as_bootstrap_field }}
+            {{ form_perfil.direccion|as_bootstrap_field }}
+            {{ form_perfil.subscrito|as_bootstrap_field }}
+          </div>
+        </div>
+
+        <!-- ÁREA DE IMAGEN DE PERFIL -->
+        <div class="row mt-4">
+          <div class="col-sm-12 text-center">
+            <h4>Imagen de Perfil</h4>
+            <div class="profile-image mb-3">
+              <img id="cuadro-imagen" src="{% static 'core/img/sin-imagen.png' %}" class="img-thumbnail" alt="Imagen de Perfil">
+            </div>
+            <div>
+              {{ form_perfil.imagen|as_bootstrap_field }}
+            </div>
+          </div>
+        </div>
+
+        <!-- ÁREA DE BOTONES -->
+        <div class="row mt-4">
+          <div class="col-sm-12 text-center">
+            <button type="submit" class="btn btn-primary">Registrarme</button>
+            <button type="reset" class="btn btn-secondary ml-2" id="limpiar_formulario">Limpiar</button>
+            <button type="button" class="btn btn-info ml-2" id="crear_usuario_prueba">Crear usuario de prueba</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+<br/>
+{% endblock content %}
+
+{% block script %}
+<script src="{% static 'core/js/registrarme.js' %}"></script>
+{% endblock script %}

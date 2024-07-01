@@ -1,0 +1,128 @@
+{% extends "core/base.html" %} {%load static%} {%block content%}
+  <div id="menu_usuario"></div>
+
+  <div class="container mt-5">
+    <h1 class="text-center">Carrito de Compras</h1>
+    <br>
+    <table class=" fondo_negro borde table table-bordered table-hover">
+      <thead class="table-dark">
+        <th scope="col">#</th>
+        <th scope="col" class="d-none d-lg-blok d-lg-table-cell ">Categoría</th>
+        <th scope="col">Producto</th>
+        <th scope="col">Precio</th>
+        <th scope="col"class="d-none d-lg-blok d-lg-table-cell ">Suscriptor</th>
+        <th scope="col"class="d-none d-lg-blok d-lg-table-cell ">Oferta</th>
+        <th scope="col"class="d-none d-lg-blok d-lg-table-cell ">Descuentos (%)</th>
+        <th scope="col"class="d-none d-lg-blok d-lg-table-cell ">Descuentos ($)</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Opciones</th>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td scope="row">1</td>
+          <td scope="col"class="d-none d-lg-blok d-lg-table-cell ">Acción, Aventura</td>
+          <td scope="col">God of War Ragnarok PS4  </td>
+          <td scope="col">$29.990</td>
+          <td scope="col"class="d-none d-lg-blok d-lg-table-cell ">5%</td>
+          <td scope="col"class="d-none d-lg-blok d-lg-table-cell ">5%</td>
+          <td scope="col"class="d-none d-lg-blok d-lg-table-cell ">10%</td>
+          <td scope="col"class="d-none d-lg-blok d-lg-table-cell ">$4000</td>
+          <td scope="col">$25.990</td>
+          <td scope="col">
+            <button type="button" href="" class="btn btn-dark btn-block"> Eliminar
+              
+           </button>
+          </td>
+        </tr>
+
+        <tr>
+          <td scope="row">2</td>
+          <td scope="col"class="d-none d-lg-blok d-lg-table-cell ">Deportes</td>
+          <td scope="col">FIFA 22</td>
+          <td scope="col">$19.990</td>
+          <td scope="col"class="d-none d-lg-blok d-lg-table-cell ">5%</td>
+          <td scope="col"class="d-none d-lg-blok d-lg-table-cell ">5%</td>
+          <td scope="col"class="d-none d-lg-blok d-lg-table-cell ">10%</td>
+          <td scope="col"class="d-none d-lg-blok d-lg-table-cell ">$4000</td>
+          <td scope="col">$15.990</td>
+          <td scope="col">
+            <button type="button" href="" class="btn btn-dark btn-block"> Eliminar
+              
+           </button>
+          </td>
+        </tr>
+
+        <tr>
+          <td scope="row">3</td>
+          <td scope="col"class="d-none d-lg-blok d-lg-table-cell ">RPG</td>
+          <td scope="col">Diablo 4</td>
+          <td scope="col">$39.990</td>
+          <td scope="col"class="d-none d-lg-blok d-lg-table-cell ">5%</td>
+          <td scope="col"class="d-none d-lg-blok d-lg-table-cell ">5%</td>
+          <td scope="col"class="d-none d-lg-blok d-lg-table-cell ">10%</td>
+          <td scope="col"class="d-none d-lg-blok d-lg-table-cell ">$7000</td>
+          <td scope="col">$32.990</td>
+          <td scope="col">
+            <button type="button" href="" class="btn btn-dark btn-block"> Eliminar
+              
+           </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="row">
+      <div class="col textonegro">
+        <table style="float: right">
+          <tr >
+            <td>Precio sin IVA $</td>
+            <td>
+              <input style="text-align: right;"
+                readonly
+                type="text"
+                name="Precio_sin_iva"
+                id="precio_sin_iva"
+                value="21.840"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>Valor del IVA $</td>
+            <td>
+              <input style="text-align: right;"
+                readonly
+                type="text"
+                name="valor_iva"
+                id="valor_sin_iva"
+                value="3.159"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>Total a Pagar $</td>
+            <td>
+              <input style="text-align: right;"
+                readonly
+                type="text"
+                name="total_pagar"
+                id="total_pagat"
+                value="24.990"
+              />
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <br>
+    <div class="d-flex justify-content-end">
+      <button type="button"  class="borde_redondo btn btn-dark mb-2">Pagar</button>&nbsp;&nbsp;
+      <button type="button"  class="borde_redondo btn btn-dark mb-2">Vaciar Carrito</button>
+    </div>
+    
+</div>
+<br>
+<br>
+
+
+{%endblock content%}

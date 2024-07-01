@@ -1,0 +1,159 @@
+{% extends "core/base.html" %}
+{%load static%}
+{% block content %}
+
+
+    <div id="menu"></div>
+    <h1>Mantenedor de Productos</h1>
+    <div class="container-fluid">
+
+        <!-- datos del producto y su foto -->
+        <div class="row">
+            <div class="col">
+                <div>
+                    <img class="ima" src="img/0146333686110_2.webp" alt="">
+                    <div class ="btnexaminar">
+                        <button class="btn btn-primary">Examinar</button>
+                    </div>
+                </div>
+                <div style="width: 600px;">
+                    <label for="Id" class="col-sm-4 col-form-label">ID</label>
+                    <div class="col-sm-5">
+                        <input required placeholder="ID del juego" type="text" class="form-control" id="id" value="">
+                    </div>
+                </div>
+                <div class="mb-3" style="width: 250px;">
+                    <label for="categoria" class="form-label">Categoría</label>
+                    <br>
+                    <select id="categoria" class="form-select col-form-select" aria-label="Selecciona la categoría">
+                        <option selected>Selecciona la categoría</option>
+                        <option value="1">RPG</option>
+                        <option value="2">Aventuras</option>
+                        <option value="3">Shooter</option>
+                        <option value="4">Carreras</option>
+                        <option value="5">Simulacion</option>
+                    </select>
+                </div>
+        
+                    <div>
+                        <label for="Nombre" class="col-sm-4 col-form-label">Nombre</label>
+                        <div class="col-sm-5">
+                            <input required placeholder="Nombre de juego" type="text" class="form-control" id="Nombre" value="">
+                        </div>
+                    </div>
+    
+                    <div>
+                        <label for="Descripcion" class="col-sm-4 col-form-label">Descripción</label>
+                        <div class="col-sm-5">
+                        <textarea required placeholder="Descripcion del juego" class="form-control" rows="4" id="Descripcion"></textarea>
+                        </div>
+                    </div>
+    
+    
+                    <div>
+                        <label for="Precio" class="col-sm-4 col-form-label">Precio</label>
+                        <div class="col-sm-2">
+                            <input required placeholder="$8.000" type="text" class="form-control" id="Precio" value="">
+                        </div>
+                    </div>
+    
+                    <div>
+                        <label for="Descuento subscriptor" class="col-sm-4 col-form-label">Descuento Subscriptor %</label>
+                        <div class="col-sm-2">
+                            <input required placeholder="5%" type="text" class="form-control" id="Descuento subscriptor" value="">
+                        </div>
+                    </div>
+    
+                    <div >
+                        <label for="Descuento por oferta" class="col-sm-4 col-form-label">Descuento por Oferta %</label>
+                        <div class="col-sm-2">
+                            <input required placeholder="2%" type="text" class="form-control" id="Descuento por oferta" value="">
+                        </div>
+                    </div>
+                </div>
+        
+<br>
+<br>
+                <!-- Botones -->
+        <div class="row">
+            <div class="col">
+                <br>
+                <button class="btn btn-primary">Nuevo</button>
+                <button class="btn btn-primary">Agregar</button>
+                <button class="btn btn-primary">Eliminar</button>
+            </div>
+        
+        </div>
+            </div>
+
+        
+
+        <!-- Productos en la bodega -->
+       <!-- Productos en la bodega -->
+       <div class="row ">
+        <div class="col">
+            <br>
+            <table class="table table-hover" id="historial_tabla">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Categoria</th>
+                        <th>Nombre </th>
+                        <th>Descripcion</th>
+                        <th>Precio</th>
+                        <th>% Desc Subscriptor</th>
+                        <th>% Desc Oferta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>27</td>
+                        <td>Rpg</td>
+                        <td>Baldur´s gate 3</td>
+                        <td>Juego por turnos</td>
+                        <td>$45.000</td>
+                        <td>5%</td>
+                        <td>2%</td>
+
+                    </tr>
+                    <tr>
+                        <td>28</td>
+                        <td>Carreras</td>
+                        <td>Forza horizon 5</td>
+                        <td>Juego de autos mundo libre</td>
+                        <td>$60.000</td>
+                        <td>5%</td>
+                        <td>2%</td>
+                    </tr>
+                    <tr>
+                        <td>29</td>
+                        <td>Simulacion</td>
+                        <td>Los Sims 4</td>
+                        <td>Crea tu propia historia</td>
+                        <td>$38.000</td>
+                        <td>5%</td>
+                        <td>2%</td>
+                    </tr>
+                    <tr>
+                        <td>30</td>
+                        <td>Peleas</td>
+                        <td>Mortal kombat 1</td>
+                        <td>Juego de peleas </td>
+                        <td>$52.000</td>
+                        <td>5%</td>
+                        <td>2%</td>
+                    </tr>
+                    <!-- Puedes agregar más filas según sea necesario -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    
+    
+        </div>
+
+    <script src="js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+{%endblock content%}

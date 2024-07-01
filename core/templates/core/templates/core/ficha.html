@@ -1,0 +1,49 @@
+{% extends "core/base.html" %}
+{%load static%}
+{% block content %}
+<h1 class="text-center">Ficha producto</h1>
+
+<div class="borde fondo_negro container" style="background-color: white">
+  <div class="card border-0">
+    <div class="row">
+      <div class="col-md-4">
+        <img
+          src="/media/{{producto.imagen}}"
+          alt="Nombre del Videojuego"
+          class="card-img-top imagen-producto"
+        />
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h2 class="card-title">{{producto.nombre}}</h2>
+          <div class="precio-oferta lead fw-bold">**DISPONIBLE EN BODEGA</div>
+          <div class="lead text-secondary fw-bold">EN OFERTA</div>
+
+          <div class="precio-real text-danger">{{producto.precio}}</div>
+          <div class="precio-oferta lead fw-bold">{{producto.oferta}}</div>
+          <p class="card-text">{{producto.descripcion}}</p>
+
+          <ul class="list-unstyled">
+            <li>Título: God of War: Ragnarok.</li>
+            <li>Plataforma: Exclusivo para la consola PlayStation</li>
+            <li>Género: Acción, Aventura</li>
+            <li>Modo de juego: Un jugador</li>
+          </ul>
+          <!-- Botones -->
+          <div class="mt-3">
+            <button
+              class="btn btn-primary mr-2"
+              onclick="window.location.href='carrito.html'"
+            >
+              Agregar al carrito
+            </button>
+            <button class="btn btn-success">Comprar ahora</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<br />
+{% endblock content %}
