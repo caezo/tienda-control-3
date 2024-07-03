@@ -25,11 +25,6 @@
             <img id="cuadro-imagen" src="{% static 'core/img/sin-imagen.png' %}" class="img-thumbnail">
           </div>
           <div class="text-center">
-            <!-- Botón para seleccionar imagen -->
-            <label for="id_imagen_input" class="btn btn-primary">
-              Seleccionar Imagen
-            </label>
-            <!-- Campo de formulario para la imagen -->
             {{ form.imagen }}
           </div>
         </div>
@@ -79,6 +74,7 @@
 {% endblock content %}
 
 {% block script %}
+
 <input type="hidden" id="url_obtener_productos" value="{% url 'obtener_productos' %}">
 <script src="{% static 'core/js/bodega.js' %}"></script>
 {% endblock script %}

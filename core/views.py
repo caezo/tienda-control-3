@@ -15,6 +15,8 @@ from .forms import RegistroUsuarioForm, RegistroPerfilForm
 from .templatetags.custom_filters import formatear_dinero, formatear_numero
 from .tools import eliminar_registro, verificar_eliminar_registro, show_form_errors
 from django.core.mail import send_mail
+from .forms import UsuarioForm, PerfilForm  # Asegúrate de importar tus formularios
+from django.db import transaction, IntegrityError
 
 # *********************************************************************************************************#
 #                                                                                                          #
@@ -240,6 +242,7 @@ def productos(request, accion, id):
     productos1 = Producto.objects.all()
     return render(request, "core/productos.html", {'form': form, 'productos': productos1})
 @user_passes_test(es_personal_autenticado_y_activo)
+
 def usuarios(request, accion, id):
     
     if request.method == 'POST':
@@ -256,7 +259,7 @@ def usuarios(request, accion, id):
                 perfil.usuario = usuario
                 perfil.save()
 
-                return redirect('usuarios')
+                return redirect(reverse('usuarios', args=['crear', 0]))
 
         elif accion == 'actualizar':
             usuario = get_object_or_404(User, id=id)
@@ -269,13 +272,23 @@ def usuarios(request, accion, id):
                 form_usuario.save()
                 form_perfil.save()
 
-                return redirect('usuarios')
+                return redirect(reverse('usuarios', args=['actualizar', id]))
 
     elif request.method == 'GET':
         if accion == 'eliminar':
-            usuario = get_object_or_404(User, id=id)
-            usuario.delete()
-            return redirect('usuarios')
+            try:
+                with transaction.atomic():
+                    usuario = get_object_or_404(User, id=id)
+                    # Eliminar objetos relacionados primero
+                    Perfil.objects.filter(usuario=usuario).delete()
+                    # Ahora eliminar el usuario
+                    usuario.delete()
+                messages.success(request, 'Usuario eliminado correctamente.')
+                return redirect(reverse('usuarios', args=['crear', 0]))
+            except IntegrityError:
+                messages.error(request, 'No se puede eliminar el usuario debido a restricciones de clave foránea.')
+                return redirect(reverse('usuarios', args=['crear', 0]))
+
 
         elif accion == 'crear':
             form_usuario = UsuarioForm()
@@ -293,8 +306,16 @@ def usuarios(request, accion, id):
         'usuarios': User.objects.all(),  # Obtener todos los usuarios para mostrar en la tabla
     }
 
-    return render(request, 'core/usuarios.html', context)   
+    return render(request, 'core/usuarios.html', context)  
+@user_passes_test(es_personal_autenticado_y_activo)
 
+
+@user_passes_test(es_personal_autenticado_y_activo)
+def eliminar_usuario(request, id):
+    usuario = get_object_or_404(User, id=id)
+    usuario.delete()
+    messages.success(request, 'Usuario eliminado con éxito')
+    return redirect('usuarios')
 @user_passes_test(es_personal_autenticado_y_activo)
 def bodega(request):
 
@@ -336,6 +357,7 @@ def bodega(request):
 def obtener_productos(request):
     # La vista obtener_productos la usa la pagina "Administracion de bodega", para
     # filtrar el combobox de productos cuando el usuario selecciona una categoria
+    
     categoria_id=request.Get.get('categoria')
     producto=Producto.objects.filter(categoria_id=categoria_id)
     data=[
@@ -645,3 +667,9 @@ def administrar(request):
 def registro(request):
     return render(request, 'registro.html')
 
+def tu_vista(request):
+    productos = Producto.objects.all()  # Obtener todos los productos
+    form = TuFormulario()  # Instanciar el formulario que quieres usar
+
+    # Renderizar la plantilla 'tu_template.html' con el formulario y los productos
+    return render(request, 'tu_template.html', {'form': form, 'productos': productos})

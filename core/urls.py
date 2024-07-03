@@ -8,6 +8,7 @@ from .views import vaciar_carrito, mipassword, cambiar_password, comprar_ahora
 from .views import administracion,administrar , registro
 from .views import agregar_producto_al_carrito
 urlpatterns = [
+    
 path('registro', registro, name='registro'),
      path('administracion', administracion, name='admministracion'),
      path('administrar', administrar, name='admministrar'),
