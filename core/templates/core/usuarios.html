@@ -11,7 +11,7 @@
 <form id="form" method="POST" enctype="multipart/form-data">
   {% csrf_token %}
   <div class="container-fluid mt-5">
-    <h1 class="text-center mb-4">Mantenedor de Usuario</h1>
+    <h1 class="text-center mb-4 texto">Mantenedor de Usuario</h1>
 
     <div id="alertContainer"></div>
 
@@ -96,8 +96,8 @@
   {% if usuarios %} 
   
 
-
-    <table id="tabla-principal" class="table table-hover">
+  <div class=" container mt-6">   
+    <table id="tabla-principal" class="fondo_negro borde table table-bordered table-hover">
       <thead>
         <tr>
           <th> ID </th>
@@ -117,12 +117,12 @@
           
 
         <td> {{usuario.id}}  </td>
-          <td> {{usuario.username}} </td>
-            <td> {{usuario.perfil.tipo_usuario}} </td>
-              <td> {{usuario.first_name}} </td>
-                <td>{{usuario.last_name}} </td>
-                  <td> {{usuario.email}} </td>
-                    <td> {{usuario.perfil.rut}} </td>
+        <td> {{usuario.username}} </td>
+        <td> {{usuario.perfil.tipo_usuario}} </td>
+        <td> {{usuario.first_name}} </td>
+        <td>{{usuario.last_name}} </td>
+        <td> {{usuario.email}} </td>
+        <td> {{usuario.perfil.rut}} </td>
           
             <td> {% if usuario.perfil.subscrito %} Sí {% else %} No {% endif %} </td>
             <td>
@@ -144,7 +144,7 @@
         {% endfor %}
       </tbody>
     </table>
-  
+  </div>
   
   
   {% endif %} 

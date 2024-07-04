@@ -73,12 +73,12 @@
 
           {% if user.is_authenticated and user.is_staff and user.is_active or user.is_authenticated and user.is_superuser and user.is_active %}
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" 
+              <a class="nav-link dropdown-toggle texto" href="#" role="button" data-bs-toggle="dropdown" 
                   aria-expanded="false">
                 Admnistrar tienda
               </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{% url 'productos' 'crear' '0' %}"> Productos </a></li>
+              <ul class="dropdown-menu texto">
+                <li><a class="dropdown-item texto " href="{% url 'productos' 'crear' '0' %}"> Productos </a></li>
                 <li><a class="dropdown-item" href="{% url 'usuarios' 'crear' '0' %}"> Usuarios </a></li>
                 <li><a class="dropdown-item" href="{% url 'bodega' %}"> Bodega </a></li>
                 <li><hr class="dropdown-divider"></li>
@@ -92,13 +92,13 @@
 
           {% if not user.is_authenticated %}
             <li class="nav-item">
-              <a class=" texto nav-link active" aria-current="page" href="{% url 'ingresar' %}"> Ingresar </a>
+              <a class=" texto nav-link active texto" aria-current="page" href="{% url 'ingresar' %}"> Ingresar </a>
             </li>
           {% endif %}
 
           {% if user.is_authenticated or user.is_active or user.perfil.subscrito %}
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" 
+              <a class="nav-link dropdown-toggle texto" href="#" role="button" data-bs-toggle="dropdown" 
                   aria-expanded="false" href="{% url 'ingresar' %}">
                 
                 {% if user.is_superuser %}
@@ -116,7 +116,7 @@
 
               </a>
             
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu texto">
                 <li><a class="dropdown-item" href="{% url 'misdatos' %}">Mis datos</a></li>
                 <li><a class="dropdown-item" href="{% url 'mipassword' %}">Cambiar mi contraseña</a></li>
                 {% if user.is_authenticated and not user.is_staff and not user.is_superuser %}

@@ -8,7 +8,7 @@
   <form id="form" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="container-fluid mt-5">
-      <h1 class="text-center mb-4">Mantenedor de Productos</h1>
+      <h1 class="text-center mb-4 texto">Mantenedor de Productos</h1>
   
       <div id="alertContainer"></div>
   
@@ -63,31 +63,30 @@
       <!-- Botones centrados -->
       <div class="row justify-content-center mt-3">
         <div class="col-md-6 text-center">
-          <button type="submit" class="btn btn-primary">Guardar</button>
-          <a href="{% url 'productos' 'crear' '0' %}" class="btn btn-primary">Nuevo</a>
-          <button onclick="event.preventDefault(); document.getElementById('id_imagen').click();" class="btn btn-primary">Seleccionar imagen</button>
+          <button type="submit" class="btn btn-dark">Guardar</button>
+          <a href="{% url 'productos' 'crear' '0' %}" class="btn btn-dark">Nuevo</a>
+          <button onclick="event.preventDefault(); document.getElementById('id_imagen').click();" class="btn btn-dark">Seleccionar imagen</button>
           {% if form.instance.id %}
-          <a class="btn btn-primary" href="{% url 'productos' 'eliminar' form.instance.id %}">Eliminar</a>
+          <a class="btn btn-dark" href="{% url 'productos' 'eliminar' form.instance.id %}">Eliminar</a>
           {% endif %}
         </div>
       </div>
   
     </div>
   
-    {% comment %} {{ form_usuario|as_bootstrap_form }} 
-    {{ form_perfil|as_bootstrap_form }} {% endcomment %}
+
   </form>
   
+<br>
 
-  {% comment %} 
   
   {% if productos %} 
   
-  {% endcomment %}
 
 
-  
-    <table id="tabla-principal" class="table table-hover">
+
+  <div class=" container mt-6">   
+    <table id="tabla-principal" class=" fondo_negro borde table table-bordered table-hover">
         <thead>
             <tr>
                 <th> ID </th>
@@ -127,12 +126,12 @@
             {% endfor %}
         </tbody>
     </table>
-
-  {% comment %}     
+  </div>
+  
   
   {% endif %}
   
-  {% endcomment %} 
+
 
 {% endblock content %}
 

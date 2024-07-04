@@ -5,12 +5,12 @@
 {% block content %}
 {% if boleta %}
 <div id="menu_admin"></div>
-<h1 class="text-center">Boleta</h1>
+<h1 class="text-center texto ">Boleta</h1>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col">
-            <h1>
+            <h1 class="texto">
                 Boleta N° {{ boleta.nro_boleta }} de {{ boleta.cliente.usuario.first_name }} {{ boleta.cliente.usuario.last_name }}
             </h1>
         </div>
@@ -33,18 +33,30 @@
                 <tr style="font-size: 12px;">
                     <td>
                         Vendido <br/>
-                        {{ boleta.fecha_venta }}
+                        {% if boleta.fecha_venta %}
+                            {{ boleta.fecha_venta|formatear_fecha }}
+                        {% else %}
+                            -
+                        {% endif %}
                     </td>
                     <td>
                         Despachado <br/>
-                        {{ boleta.fecha_despacho }}
-                        &nbsp;
+                        {% if boleta.fecha_despacho %}
+                            {{ boleta.fecha_despacho|formatear_fecha }}
+                        {% else %}
+                            -
+                        {% endif %}
                     </td>
                     <td>
                         Entregado <br/>
-                        {{ boleta.fecha_entrega }}
+                        {% if boleta.fecha_entrega %}
+                            {{ boleta.fecha_entrega|formatear_fecha }}
+                        {% else %}
+                            -
+                        {% endif %}
                     </td>
                 </tr>
+                
             </table>
         </div>
     </div>

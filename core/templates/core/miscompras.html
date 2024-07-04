@@ -6,10 +6,12 @@
     
 
 <!-- AREA DE TABLA: Datos de las boletas de compras del cliente -->
-<h1 class="text-center  texto">Mis compras</h1>  
-<table id="tabla-principal" class="fondo_negro table table-hover table-bordered table-striped">
+<div class="container mt-5">
+    <h1 class="text-center texto">Mis Compras</h1>
+    <br>
+    <table id="tabla-principal" class="fondo_negro table table-hover table-bordered table-striped">
     
-    <thead>
+    <thead >
         <tr>
             <th>Nro boleta</th>
             <th>Venta</th>
@@ -40,5 +42,6 @@
         {% endfor %}
     </tbody>
 </table>
+</div>
 
 {% endblock content %}

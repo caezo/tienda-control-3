@@ -5,7 +5,7 @@
 {% block content %}
 <div id="menu_admin"></div>
 <div class="container-fluid mt-5">
-  <h1 class="text-center mb-4">Mantenedor de Bodega</h1>
+  <h1 class="text-center mb-4 texto">Mantenedor de Bodega</h1>
 
   <div id="alertContainer"></div>
 
@@ -15,9 +15,9 @@
         <div class="col-md-8">
           <form id="form" method="POST">
             {% csrf_token %}
-            <!-- Asegúrate de que el formulario esté dentro del bloque de <form> -->
+            
             {{ form|as_bootstrap_form }}
-            <a class="btn btn-primary" href="{% url 'productos' 'crear' '0' %}">Nuevo</a>
+            <a class="btn btn-dark" href="{% url 'productos' 'crear' '0' %}">Nuevo</a>
           </form>
         </div>
         <div class="col-md-4">
@@ -36,8 +36,8 @@
 <br />
 
 {% if productos %}
-<div>
-  <table id="tabla-principal" class="table table-hover">
+<div class=" container mt-6">  
+  <table id="tabla-principal" class=" fondo_negro borde table table-bordered table-hover">
     <thead>
       <tr>
         <th>ID</th>
