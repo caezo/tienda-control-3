@@ -17,6 +17,14 @@ from .tools import eliminar_registro, verificar_eliminar_registro, show_form_err
 from django.core.mail import send_mail
 from .forms import UsuarioForm, PerfilForm  # Asegúrate de importar tus formularios
 from django.db import transaction, IntegrityError
+from django import template
+from django.db import models
+from .models import Producto, Bodega
+from .forms import ProductoForm
+
+
+
+register = template.Library()
 
 # *********************************************************************************************************#
 #                                                                                                          #
@@ -196,23 +204,34 @@ def misdatos(request):
 
 @login_required
 def boleta(request, nro_boleta):
+    # Obtener la boleta correspondiente al número de boleta
+    boleta = get_object_or_404(Boleta, nro_boleta=nro_boleta)
+    detalles_boleta = DetalleBoleta.objects.filter(boleta=boleta)
+    # CREAR: Aquí podrías agregar lógica adicional si necesitas procesar más datos relacionados con la boleta
 
-    # CREAR: lógica para ver la boleta
-    
-    # CREAR: variable de contexto para enviar boleta y detalle de la boleta
-    context = { }
+    # Preparar el contexto con la boleta
+    context = {
+        
+        'boleta': boleta,
+        'detalles_boleta': detalles_boleta
+        # Aquí podrías incluir más datos relacionados con la boleta si los necesitas
+    }
 
+    # Renderizar la plantilla 'boleta.html' con el contexto creado
     return render(request, 'core/boleta.html', context)
 
 @user_passes_test(es_personal_autenticado_y_activo)
 def ventas(request):
-    
-    # CREAR: lógica para ver las ventas
+    # Obtener todas las boletas ordenadas por fecha de venta (o como necesites)
+    historial_boletas = Boleta.objects.all().order_by('-fecha_venta')
 
-    # CREAR: variable de contexto para enviar historial de ventas
-    context = { }
+    # Variable de contexto para enviar historial de boletas
+    context = {
+        'historial': historial_boletas
+    }
 
     return render(request, 'core/ventas.html', context)
+
 
 @user_passes_test(es_personal_autenticado_y_activo)
 def productos(request, accion, id):
@@ -228,21 +247,34 @@ def productos(request, accion, id):
             return redirect('productos', 'actualizar', producto.id)
         else:
             messages.error(request, 'No fue posible guardar el producto')
+            # En caso de error, si es necesario, podrías agregar el manejo del form aquí también
     else:
+        form = None  # Define form inicialmente como None
+        
         if accion == 'crear':
             form = ProductoForm()
         elif accion == 'actualizar':
             form = ProductoForm(instance=get_object_or_404(Producto, id=id))
         elif accion == 'eliminar':
-            producto = get_object_or_404(Producto, id=id)
-            producto.delete()
-            messages.success(request, 'El producto ha sido eliminado exitosamente.')
-            return redirect('productos', 'crear', 0)
+            try:
+                with transaction.atomic():
+                    producto = get_object_or_404(Producto, id=id)
+                    
+                    # Eliminar objetos relacionados primero
+                    Bodega.objects.filter(producto=producto).delete()
+                    
+                    # Ahora eliminar el producto
+                    producto.delete()
+                    
+                    messages.success(request, 'Producto eliminado correctamente.')
+                    
+            except IntegrityError:
+                messages.error(request, 'No se puede eliminar el producto debido a restricciones de clave foránea.')
     
     productos1 = Producto.objects.all()
     return render(request, "core/productos.html", {'form': form, 'productos': productos1})
-@user_passes_test(es_personal_autenticado_y_activo)
 
+@user_passes_test(es_personal_autenticado_y_activo)
 def usuarios(request, accion, id):
     
     if request.method == 'POST':
@@ -576,6 +608,7 @@ def vaciar_carrito(request):
         productos_carrito.delete()
         messages.info(request, 'Se ha cancelado la compra, el carrito se encuentra vacío.')
     return redirect(carrito)
+
 
 # CAMBIO DE PASSWORD Y ENVIO DE PASSWORD PROVISORIA POR CORREO
 

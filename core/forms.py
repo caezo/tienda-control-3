@@ -3,6 +3,8 @@ from django.forms import ModelForm, Form
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Categoria, Producto, Perfil
+from django.db import models
+
 
 # *********************************************************************************************************#
 #                                                                                                          #
@@ -11,6 +13,7 @@ from .models import Categoria, Producto, Perfil
 # https://drive.google.com/drive/folders/1ObwMnpKmCXVbq3SMwJKlSRE0PCn0buk8?usp=drive_link                  #
 #                                                                                                          #
 # *********************************************************************************************************#
+
 
 # PARA LA PAGINA MANTENEDOR DE PRODUCTOS:
 # Crea ProductoForm como una clase que hereda de ModelForm
@@ -91,11 +94,11 @@ class RegistroPerfilForm(ModelForm):
 # asocialo con el modelo User
 # muestra todos los campos: 'username', 'first_name', 'last_name' e 'email'
 # renombra la etiqueta del campo 'email' por 'E-mail'
-class UsuarioForm(ModelForm):
-   class Meta:
+class UsuarioForm(forms.ModelForm):
+    class Meta:
         model = User
-        fields = ('username','first_name','last_name','email')
-        exclude =['tipo_usuario']
+        fields = ('username', 'first_name', 'last_name', 'email')
+        exclude = ['tipo_usuario']
         labels = {
             'email': 'E-mail',
         }
@@ -128,3 +131,4 @@ class ProductoForm(forms.ModelForm):
             'direccion':forms.Textarea(),
             'imagen': forms.FileInput(), 
         }
+

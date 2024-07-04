@@ -3,142 +3,111 @@
 {% load custom_filters %}
 
 {% block content %}
-{% if boleta %} 
+{% if boleta %}
 <div id="menu_admin"></div>
 <h1 class="text-center">Boleta</h1>
 
-<div class="container-fluid" >
-  <div class="row">
-    <div class="col">
-      <h1>
-        Boleta N° 
-        boleta.nro_boleta 
-        de 
-        boleta.cliente.usuario.first_name
-        boleta.cliente.usuario.last_name
-
-    </h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <h1>
+                Boleta N° {{ boleta.nro_boleta }} de {{ boleta.cliente.usuario.first_name }} {{ boleta.cliente.usuario.last_name }}
+            </h1>
+        </div>
+        <div class="col">
+            <table id="boleta_tabla_estados" style="float: right;">
+                <tr>
+                    <td class="td_img_estado_boleta">
+                        <img src="{% static 'core/img/vendido.png' %}" style="width: 75px;">
+                        &nbsp; &nbsp; &nbsp; &nbsp;
+                    </td>
+                    <td class="td_img_estado_boleta">
+                        <img src="{% static 'core/img/despachado.png' %}" style="width: 75px;">
+                        &nbsp; &nbsp; &nbsp;
+                    </td>
+                    <td class="td_img_estado_boleta">
+                        <img src="{% static 'core/img/entregado.png' %}" style="width: 75px;">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr style="font-size: 12px;">
+                    <td>
+                        Vendido <br/>
+                        {{ boleta.fecha_venta }}
+                    </td>
+                    <td>
+                        Despachado <br/>
+                        {{ boleta.fecha_despacho }}
+                        &nbsp;
+                    </td>
+                    <td>
+                        Entregado <br/>
+                        {{ boleta.fecha_entrega }}
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
-    <div class="col">
-      <table id="boleta_tabla_estados" style="float: right;">
-        <tr>
-          <td class="td_img_estado_boleta"> 
-            <img src="{% static 'core/img/vendido.png' %}" style="width: 75px;">
-        </td>
-        <td class="td_img_estado_boleta"> 
-            <img src="{% static 'core/img/despachado.png' %}" style="width: 75px;">
-        </td>
-        <td class="td_img_estado_boleta"> 
-            <img src="{% static 'core/img/entregado.png' %}" style="width: 75px;">
-        </td>
-        </tr>
-        <tr style="font-size: 12px;">
-          <td>
-            Vendido&nbsp;&nbsp;&nbsp;
-            <br />
-            09/04/2024 &nbsp;&nbsp;&nbsp;&nbsp;
-            <br />
-            11:00&nbsp;&nbsp;&nbsp;
-          </td>
-          <td>
-            Despachado&nbsp;&nbsp;&nbsp;
-            <br />
-            10/04/2024&nbsp;&nbsp;&nbsp;&nbsp;
-            <br />
-            12:00&nbsp;&nbsp;&nbsp;
-          </td>
-          <td>
-            Entregado&nbsp;&nbsp;&nbsp;
-            <br />
-            12/04/2024&nbsp;&nbsp;&nbsp;&nbsp;
-            <br />
-            13:50&nbsp;&nbsp;&nbsp;
-          </td>
-        </tr>
-      </table>
+    <!-- tabla de productos -->
+    <div class="row">
+        <div class="col">
+            <table class="fondo_negro borde table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Categoría</th>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Suscriptor (%)</th>
+                        <th>Oferta (%)</th>
+                        <th>Dcto. Total (%)</th>
+                        <th>Dcto. Total ($)</th>
+                        <th>Precio Final</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for detalle in detalles_boleta %}
+                    <tr>
+                        <td>{{ detalle.bodega.producto.categoria.nombre }}</td>
+                        <td>{{ detalle.bodega.producto.nombre }}</td>
+                        <td>{{ detalle.precio }}</td>
+                        <td>{{ detalle.descuento_subscriptor|formatear_porcentaje }}</td>
+                        <td>{{ detalle.descuento_oferta|formatear_porcentaje }}</td>
+                        <td>{{ detalle.descuento_total|formatear_porcentaje }}</td>
+                        <td>{{ detalle.descuentos }}</td>
+                        <td>{{ detalle.precio_a_pagar }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
-  <!-- tabla de producto -->
-  <div class="row">
-    <div class="col">
-      <table  class=" fondo_negro borde table table-bordered table-hover">
-        <thead class="table-dark">
-          <tr>
-            <th>Categoría</th>
-            <th>Producto</th>
-            <th>Precio</th>
-            <th>Suscriptor</th>
-            <th>Oferta</th>
-            <th>Dcto. Total (%)</th>
-            <th>Dcto. Total ($)</th>
-            <th>Precio Final</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{item.bodega.producto.categoria.nombre}}</td>
-            <td>{{item.bodega.producto.nombre}}</td>
-            <td>{{item.precio|formatear_dinero}}</td>
-            <td>{{item.descuento_subscriptor|formatear_porcentaje}}</td>
-            <td>{{item.descuento_oferta|formatear_porcentaje}}</td>
-            <td>{{item.descuento_total|formatear_porcentaje}}</td>
-            <td>{{item.descuentos|formatear_dinero}} </td>
-            <td>{{item.precio_a_pagar|formatear_dinero}}</td>
-          </tr>
-        </tbody>
-      </table>
+    <br>
+    <!-- datos tributarios -->
+    <div class="row">
+        <div class="col">
+            <table style="float: right">
+                <tr>
+                    <td class="textonegro">Precio sin IVA $</td>
+                    <td readonly style="text-align: right;" type="text" name="Precio_sin_iva" id="precio_sin_iva" value="{{ boleta.monto_sin_iva|formatear_dinero }}"></td>
+                </tr>
+                <tr>
+                    <td class="textonegro">Valor del IVA $</td>
+                    <td><input readonly style="text-align: right;" type="text" name="valor_iva" id="valor_sin_iva" value="{{ boleta.iva|formatear_dinero }}" /></td>
+                </tr>
+                <tr>
+                    <td class="textonegro">Total a Pagar $</td>
+                    <td><input readonly style="text-align: right;" type="text" name="total_pagar" id="total_pagat" value="{{ boleta.total_a_pagar|formatear_dinero }}" /></td>
+                </tr>
+            </table>
+        </div>
     </div>
-  </div>
-<br>
-  <!-- datos tributarios -->
-  <div class="row">
-    <div class="col">
-      <table style="float: right">
-        <tr>
-          <td class="textonegro">Precio sin IVA $</td>
-          <td
-              readonly style="text-align: right;"
-              type="text"
-              name="Precio_sin_iva"
-              id="precio_sin_iva"
-              value={{boleta.monto_sin_iva|formatear_dinero}}>
-          </td>
-        </tr>
-        <tr>
-          <td class="textonegro">Valor del IVA $</td>
-          <td>
-            <input
-              readonly style="text-align: right;"
-              type="text"
-              name="valor_iva"
-              id="valor_sin_iva"
-              value="{{boleta.iva|formatear_dinero}}"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td class="textonegro">Total a Pagar $</td>
-          <td>
-            <input
-              readonly style="text-align: right;"
-              type="text"
-              name="total_pagar"
-              id="total_pagat"
-              value={{boleta.total_a_pagar|formatear_dinero}}
-            />
-          </td>
-        </tr>
-      </table>
-    </div>
-  </div>
 </div>
-        
+
 {% else %}
-
 <h1> No se puede mostrar la boleta </h1>
-
 {% endif %}
 {% endblock content %}
+
 {% comment %} <div class="instrucciones-para-el-alumno">
             INSTRUCCIONES PARA EL ALUMNO (ELIMINALO DESPUES DE LEERLO):<br>
             - Pega tu código html que muestra los items de la boleta

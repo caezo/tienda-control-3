@@ -2,279 +2,100 @@
 {% load static %}
 {% load custom_filters %}
 
-<div>
-<div class="container-fluid mt-5">
-  <h1 class="text-center mb-4">Mantenedor de Usuario</h1>
 
-  <div id="alertContainer"></div>
-
-  <div class=" card border-0" style="background-color: inherit;">
-      <div class="border-0 textonegro" style="color: black; font-size: large;">
-          Crear/Actualizar Usuario
-      </div>
-      <div class="card-body">
-          <form id="productForm" class="row">
-
-              <div class="col-md-6 border-0">
-                  <div class="form-group">
-                      <label for="id" class="textonegro">ID:</label>
-                      <input type="text" class="form-control" id="id" name="id"  >
-                  </div>
-                  <div class="form-group">
-                      <label for="nombre" class="textonegro">Nombre:</label>
-                      <input type="text" class="form-control" id="nombre" name="nombre"  >
-                  </div>
-                  <br>
-                  <div class="mb-3">
-                      <label for="tipoUsuario" class="form-label textonegro">Tipo Usuario:</label>
-                      <div>
-                          <input type="radio" id="cliente" name="tipoUsuario" value="cliente">
-                          <label for="cliente" class="textonegro">Cliente</label>
-                      </div>
-                      <div>
-                          <input type="radio" id="administrador" name="tipoUsuario" value="administrador">
-                          <label for="administrador" class="textonegro">Administrador</label>
-                      </div>
-                  </div>
-                  <div class="form-group">
-                      <label for="rut" class="textonegro">RUT:</label>
-                      <input type="text" class="form-control" id="rut" name="rut" step="0.01" >
-                  </div>
-                  <div class="form-group">
-                      <label for="nombres" class="textonegro">Nombres:</label>
-                      <input type="text" class="form-control" id="nombres" name="nombres" step="0.01" >
-                    </div>
-                  <div class="form-group">
-                      <label for="apellidos" class="textonegro">Apellidos:</label>
-                      <input type="text" class="form-control" id="apellidos" name="apellidos" step="0.01" >
-                  </div>
-                  <div class="form-group">
-                      <label for="email" class="textonegro">Email:</label>
-                      <input type="text" class="form-control" id="email" name="email" step="0.01" >
-                  </div>
-                  <br>
-                  <div class="mb-3">
-                      <label for="suscrito" class="form-label textonegro">Con subscripción</label>
-                      <input type="checkbox" id="suscrito" name="suscrito">
-                      <div id="suscritoHelp" class="form-text">
-                          Deseo subscribirme con un aporte de $5.000 mensuales
-                          y obtener un 5% de descuento en mis compras.
-                      </div>
-                  </div>
-                  <div class="form-group">
-                      <label for="direccion" class="textonegro">Dirección:</label>
-                      <textarea class="form-control" id="direccion" name="direccion" rows="3" ></textarea>
-                  </div>             
-                  <div class="form-group">
-                      <label for="contrasena" class="textonegro">Contraseña:</label>
-                      <div class="d-flex flex-row">
-                          <input type="password" class="form-control" id="contrasena" name="contrasena">
-
-                      </div>
-                  </div>
-
-                  
-              <br>
-              </div>
-              <div class=" col form-group">
-                  <img  class="registro_foto" src="img/goku.jpg" alt="">
-                  <br>
-                  <br>
-                  <div> <input type="file" class="btn btn-dark btn-block">
-                  </div>
-                  <br><br><br><br><br><br><br>
-                  <br><br><br><br><br><br><br>
-                  <br><br><br><br><br><br>
-                  <button type="button" class="btn btn-dark btn-block">Generar Contraseña</button>
-              </div>
-              <div class="col-md-6">
-
-                  <button type="submit" class="btn btn-dark btn-block">Guardar Nuevo</button>
-                  &nbsp;
-                  &nbsp;
-                  <button type="button" class="btn btn-dark btn-block">Eliminar</button>
-              </div>
-
-          </form>
-<br>
-              <div style="color: black; font-size: large;">
-                  Lista Usuarios
-              </div>
-              <div>
-                  <table class="fondo_negro borde table table-bordered table-hover">
-                      <thead class="table-dark">
-                          <tr>
-                              <th>ID</th>
-                              <th>Tipo de Usuario</th>
-                              <th>Rut</th>
-                              <th>Nombres</th>
-                              <th>Apellidos</th>
-                              <th>Email</th>
-                              <th>Dirección</th>
-                              <th>Con Suscripción</th>
-                              <th>Imagen</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <tr>
-                              <td>001</td>
-                              <td>Administrador</td>
-                              <td>12.345.678-9</td>
-                              <td>Juan</td>
-                              <td>Pérez</td>
-                              <td>juan.perez@example.com</td>
-                              <td>Calle 123, Santiago</td>
-                              <td>N/A</td>
-                              <td><img src="img/trunks.jpg" alt="*" width="100"></td>
-                          </tr>
-                          <tr>
-                              <td>002</td>
-                              <td>Cliente</td>
-                              <td>11.234.567-8</td>
-                              <td>Maria</td>
-                              <td>López</td>
-                              <td>maria.lopez@example.com</td>
-                              <td>Avenida 456, Valparaíso</td>
-                              <td>No</td>
-                              <td><img src="img/itachi.jpg" alt="*" width="100"></td>
-                          </tr>
-                          <tr>
-                              <td>003</td>
-                              <td>Cliente</td>
-                              <td>10.123.456-7</td>
-                              <td>Carlos</td>
-                              <td>González</td>
-                              <td>carlos.gonzalez@example.com</td>
-                              <td>Plaza 789, Concepción</td>
-                              <td>Sí</td>
-                              <td><img src="img/goku.jpg" alt="*" width="100"></td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
-              
-          
-          
-        </div>
-    </div>
-  </div>
-<div>
-<br>
-<br>
 
 
 
 {% block content %}
-    
-  <form id="form" method="POST" enctype="multipart/form-data">
-  
-    <div class="container-fluid mt-5">
-      <h1 class="text-center mb-4">Mantenedor de Usuario</h1>
-    
-      <div id="alertContainer"></div>
-    
-      <div class=" card border-0" style="background-color: inherit;">
-          <div class="border-0 textonegro" style="color: black; font-size: large;">
-              Crear/Actualizar Usuario
-          </div>
+
+<form id="form" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="container-fluid mt-5">
+    <h1 class="text-center mb-4">Mantenedor de Usuario</h1>
+
+    <div id="alertContainer"></div>
+
+    <div class="row justify-content-center">
+      <!-- Columna izquierda para los datos del formulario -->
+      <div class="col-md-6">
+        <div class="card border-0" style="background-color: inherit;">
           <div class="card-body">
-              <form id="productForm" class="row">
-    
-                  <div class="col-md-6 border-0">
-                      <div class="form-group">
-                        {{form_usuario.username|as_bootstrap_field }}
-                      </div>
-                      <div class="form-group">
-                        {{form_usuario.first_name|as_bootstrap_field }}
-                      </div>
-                      <br>
-                      <div class="form-group">
-                        <input type="text" id="last_name" name="last_name" class="form-control" value="{% if form_usuario.last_name.value %}{{ form_usuario.last_name.value }}{% endif %}">
+            <form id="productForm" class="row">
+              <div class="form-group col-md-12">
+                {{ form_usuario.username|as_bootstrap_field }}
+              </div>
+              <div class="form-group col-md-12">
+                {{ form_usuario.first_name|as_bootstrap_field }}
+              </div>
+              <div class="form-group col-md-12">
+                {{ form_usuario.last_name|as_bootstrap_field }}
+              </div>
+              <div class="form-group col-md-12">
+                {{ form_perfil.tipo_usuario|as_bootstrap_field }}
+              </div>
+              <div class="form-group col-md-12">
+                {{ form_perfil.rut|as_bootstrap_field }}
+              </div>
+              <div class="form-group col-md-12">
+                {{ form_usuario.email|as_bootstrap_field }}
+              </div>
+              <div class="form-group col-md-12">
+                {{ form_perfil.direccion|as_bootstrap_field }}
+              </div>
+              <div class="form-group col-md-12">
+                {{ form_perfil.subscrito|as_bootstrap_field }}
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Columna derecha para la imagen y botones -->
+      <div class="col-md-6">
+        <div class="card border-0" style="background-color: inherit;">
+          <div class="card-body text-center">
+            <!-- Imagen de perfil -->
+            {% if form_perfil.imagen.value %}
+            <img id="cuadro-imagen" src="/media/{{ form_perfil.imagen.value }}" class="img-fluid">
+            {% else %}
+            <img id="cuadro-imagen" src="{% static 'core/img/sin-imagen.png' %}" class="img-fluid">
+            {% endif %}
 
-
-
-                      </div>
-                      <div class="form-group">
-                          {{ form_perfil.rut|as_bootstrap_field }}
-                      </div>
-                      <div class="form-group">
-                          <label for="nombres" class="textonegro">Nombres:</label>
-                          <input type="text" class="form-control" id="nombres" name="nombres" step="0.01" >
-                        </div>
-                      <div class="form-group">
-                          <label for="apellidos" class="textonegro">Apellidos:</label>
-                          <input type="text" class="form-control" id="apellidos" name="apellidos" step="0.01" >
-                      </div>
-                      <div class="form-group">
-                          <label for="email" class="textonegro">Email:</label>
-                          <input type="text" class="form-control" id="email" name="email" step="0.01" >
-                      </div>
-                      <br>
-                      <div class="mb-3">
-                          <label for="suscrito" class="form-label textonegro">Con subscripción</label>
-                          <input type="checkbox" id="suscrito" name="suscrito">
-                          <div id="suscritoHelp" class="form-text">
-                              Deseo subscribirme con un aporte de $5.000 mensuales
-                              y obtener un 5% de descuento en mis compras.
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          <label for="direccion" class="textonegro">Dirección:</label>
-                          <textarea class="form-control" id="direccion" name="direccion" rows="3" ></textarea>
-                      </div>             
-                      <div class="form-group">
-                          <label for="contrasena" class="textonegro">Contraseña:</label>
-                          <div class="d-flex flex-row">
-                              <input type="password" class="form-control" id="contrasena" name="contrasena">
-    
-                          </div>
-                      </div>
-    
-                      
-                  <br>
-                  </div>
-                  
-    
-              </form>
-    <br>  
-    {% csrf_token %}
-
-    {{form_usuario|as_bootstrap_form}} <br>
-    {{form_perfil|as_bootstrap_form}} <br>
-
-    <!-- AREA DE CUADRO DE IMAGEN: Imagen de perfil (VER COMENTARIO "CUADRO DE IMAGEN" en script.js) -->
-    {% if form_perfil.imagen.value %}
-      <img id="cuadro-imagen" src="/media/{{ form_perfil.imagen.value }}">
-    {% else %}
-      <img id="cuadro-imagen" src="{% static 'core/img/sin-imagen.png' %}">
-    {% endif %}
-        
-
-    <!-- AREA DE BOTONES -->
-    <div class="mt-2 text-center">
-      
-      <button type="submit" class="btn btn-primary"> Guardar </button>
-
-      <a href="{% url 'usuarios' 'crear' '0' %}" class="btn btn-primary"> Nuevo </a>
-
-      <!-- AREA DE BOTON DE SELECCIONAR IMAGEN: Reemplaza el botón "Seleccionar archivo" por otro con Bootstrap (VER COMENTARIO "BOTON IMAGEN" en script.js) -->
-      <button onclick="event.preventDefault(); document.getElementById('id_imagen').click();" class="btn btn-primary"> Seleccionar imagen </button>  
-
-      {% if form_usuario.instance.id %}
-        <a class="btn btn-primary" href="{% url 'usuarios' 'eliminar' form_usuario.instance.id %}"> Eliminar </a>
-      {% endif %}
-    
+            <!-- Campo para seleccionar imagen -->
+            <div class="mt-3">
+              {{ form_perfil.imagen|as_bootstrap_field }}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  
-  </form>
 
+    <!-- Botones centrados -->
+    <div class="row justify-content-center mt-3">
+      <div class="col-md-6 text-center">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{% url 'usuarios' 'crear' '0' %}" class="btn btn-primary">Nuevo</a>
+        <button onclick="event.preventDefault(); document.getElementById('id_imagen').click();" class="btn btn-primary">Seleccionar imagen</button>
+        {% if form_usuario.instance.id %}
+        <a class="btn btn-primary" href="{% url 'usuarios' 'eliminar' form_usuario.instance.id %}">Eliminar</a>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+
+  {% comment %} {{ form_usuario|as_bootstrap_form }} 
+  {{ form_perfil|as_bootstrap_form }} {% endcomment %}
+</form>
+
+<br/>
+<br/>
+<br/>
   <!-- AREA DE TABLA DE USUARIOS -->
 
-  {% comment %} 
   
   {% if usuarios %} 
   
-  {% endcomment %}
+
 
     <table id="tabla-principal" class="table table-hover">
       <thead>
@@ -295,13 +116,13 @@
         {% for usuario in usuarios %}
           
 
-          {{usuario.id}} </br>
-          {{usuario.username}} </br>
-          {{usuario.perfil.tipo_usuario}} </br>
-         {{usuario.first_name}} </br>
-          {{usuario.last_name}} </br>
-          {{usuario.email}} </br>
-          {{usuario.perfil.rut}} </br>
+        <td> {{usuario.id}}  </td>
+          <td> {{usuario.username}} </td>
+            <td> {{usuario.perfil.tipo_usuario}} </td>
+              <td> {{usuario.first_name}} </td>
+                <td>{{usuario.last_name}} </td>
+                  <td> {{usuario.email}} </td>
+                    <td> {{usuario.perfil.rut}} </td>
           
             <td> {% if usuario.perfil.subscrito %} Sí {% else %} No {% endif %} </td>
             <td>
@@ -324,11 +145,11 @@
       </tbody>
     </table>
   
-  {% comment %} 
+  
   
   {% endif %} 
   
-  {% endcomment %}
+  
     
 {% endblock content %}
     

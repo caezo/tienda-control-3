@@ -32,17 +32,15 @@
                     <tr>
                 {% endif %}
 
-                    <td>
-                        boleta.nro_boleta <br>
-                        boleta.nom_cliente <br>
-                        boleta.fecha_venta|formatear_fecha <br>
-                        boleta.fecha_despacho|formatear_fecha <br>
-                        boleta.fecha_entrega|formatear_fecha <br>
-                        boleta.subscrito <br>
-                        boleta.total_a_pagar|formatear_dinero <br>
-                        boleta.estado <br>
-                    </td>
-
+                    
+                <td>{{boleta.nro_boleta }}</td>
+                <td>{{boleta.nom_cliente }}</td>
+                <td>{{boleta.fecha_venta|formatear_fecha}} </td>
+                <td> {{boleta.fecha_despacho|formatear_fecha}} </td>
+                <td>{{boleta.fecha_entrega|formatear_fecha}}</td>
+                <td> {{boleta.subscrit}}</td>
+                <td> {{boleta.total_a_pagar|formatear_dinero}} </td>
+                <td> {{boleta.estado}}</td>
                     <td>
                         <a href="{% url 'boleta' boleta.nro_boleta %}" class="btn btn-sm btn-primary">Detalle</a>
                     </td>
