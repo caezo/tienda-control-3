@@ -49,18 +49,19 @@
   <div class="row">
     <div class="col textonegro">
       <table class="tabla-fondo-blanco " style="float: right">
+        
         <tr>
-          <td>Precio sin IVA $</td>
-          <td class="fw-bold text-end ">{{ monto_sin_iva|formatear_dinero }}</td>
-        </tr>
-        <tr>
-          <td>Valor del IVA $</td>
-          <td class="fw-bold text-end">{{ iva|formatear_dinero }}</td>
-        </tr>
-        <tr>
-          <td>Total a Pagar $</td>
-          <td class="fw-bold text-end">{{ total_a_pagar|formatear_dinero }}</td>
-        </tr>
+          <td class="textonegro">Precio sin IVA $</td>
+          <td><input readonly style="text-align: right;" type="text" name="Precio_sin_iva" id="precio_sin_iva" value="{{ monto_sin_iva|formatear_dinero }}"></td>
+      </tr>
+      <tr>
+          <td class="textonegro">Valor del IVA $</td>
+          <td><input readonly style="text-align: right;" type="text" name="valor_iva" id="valor_sin_iva" value="{{ iva|formatear_dinero }}" /></td>
+      </tr>
+      <tr>
+          <td class="textonegro">Total a Pagar $</td>
+          <td><input readonly style="text-align: right;" type="text" name="total_pagar" id="total_pagat" value="{{ total_a_pagar|formatear_dinero }}" /></td>
+      </tr>
       </table>
     </div>
   </div>

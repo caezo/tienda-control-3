@@ -1,11 +1,10 @@
-h1 {
-  font-size: x-large;
-  color: blue !important;
-  font-weight: bolder;
+h1.text-center {
+  font-size: 2rem; /* Adjust as needed */
+  color: black; /* Ensure this is set */
+  font-weight: 700; /* or 'bolder' */
   margin-bottom: 20px;
   text-align: center;
 }
-
 th {
   vertical-align: top;
   background-color: lightgray !important;
@@ -24,6 +23,7 @@ input, textarea, select {
 .textonegro{
   font-weight: bold;
 }
+
 .logo{
   width: 55px;
   margin-right: 20px;

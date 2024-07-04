@@ -416,11 +416,27 @@ def eliminar_producto_en_bodega(request, id):
 
 @user_passes_test(es_cliente_autenticado_y_activo)
 def miscompras(request):
+    # Obtener el perfil del cliente actual
+    perfil_cliente = get_object_or_404(Perfil, usuario=request.user)
+    
+    # Obtener todas las boletas del cliente ordenadas por fecha de venta
+    boletas_cliente = Boleta.objects.filter(cliente=perfil_cliente).order_by('-fecha_venta')
 
-    # CREAR: lógica para ver las compras del cliente
+    # Preparar una lista de compras con detalles
+    compras = []
+    for boleta in boletas_cliente:
+        detalles_boleta = DetalleBoleta.objects.filter(boleta=boleta)
+        compra = {
+            'boleta': boleta,
+            'detalles_boleta': detalles_boleta
+        }
+        compras.append(compra)
 
-    # CREAR: variable de contexto para enviar el historial de compras del cliente
-    context = { }
+    # Crear el contexto con el historial de compras del cliente
+    context = {
+        'historial': boletas_cliente,  # Usar 'historial' para que coincida con la plantilla
+        'compras': compras  # Mantener 'compras' si deseas mostrar los detalles en algún otro lugar
+    }
 
     return render(request, 'core/miscompras.html', context)
 

@@ -88,7 +88,7 @@
             <table style="float: right">
                 <tr>
                     <td class="textonegro">Precio sin IVA $</td>
-                    <td readonly style="text-align: right;" type="text" name="Precio_sin_iva" id="precio_sin_iva" value="{{ boleta.monto_sin_iva|formatear_dinero }}"></td>
+                    <td><input readonly style="text-align: right;" type="text" name="Precio_sin_iva" id="precio_sin_iva" value="{{ boleta.monto_sin_iva|formatear_dinero }}"></td>
                 </tr>
                 <tr>
                     <td class="textonegro">Valor del IVA $</td>

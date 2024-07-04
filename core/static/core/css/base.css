@@ -119,3 +119,10 @@
     margin: 4px;
     /* display: none; */
 }
+h1 {
+    font-size: x-large;
+    color: rgb(0, 0, 0) !important;
+    font-weight: bolder;
+    margin-bottom: 20px;
+    text-align: center;
+  }
