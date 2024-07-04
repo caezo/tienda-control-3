@@ -51,83 +51,72 @@ $.validator.addMethod("soloNumeros", function(value, element) {
 document.getElementById('rut').addEventListener('keyup', function(e) {
     e.target.value = e.target.value.toUpperCase();
 });
-  // Asignar placeholders para ayudar a los usuarios
-  // $('#id_username').attr('placeholder', 'Ej: cgomezv, cevans, sjohasson');
-  // $('#id_first_name').attr('placeholder', 'Ej: Cristián, Chris, Scarlett');
-  // $('#id_last_name').attr('placeholder', 'Ej: Gómez Vega, Evans, Johansson');
-  // $('#id_email').attr('placeholder', 'Ej: cevans@marvels.com');
-  // $('#id_password1').attr('placeholder', '8 caracteres como mínimo');
-  // $('#id_password2').attr('placeholder', 'Repetir la contraseña escogida');
-  // $('#id_rut').attr('placeholder', 'Ej: 11111111-1 (sin puntos y con guión)');
-  // $('#id_direccion').attr('placeholder', 'Calle, n° casa o edificio, n° departamento o piso\n'
-  //   + 'localidad o ciudad, código postal o de área\n'
-  //   + 'estado o provincia, ciudad, país');
 
-  // Agregar una validación por defecto para que la imagen la exija como campo obligatorio
-  // $.extend($.validator.messages, {
-  //   required: "Este campo es requerido",
-  // });
+  $('#id_username').attr('placeholder', 'Ej: cgomezv, cevans, sjohasson');
+  $('#id_first_name').attr('placeholder', 'Ej: Cristián, Chris, Scarlett');
+  $('#id_last_name').attr('placeholder', 'Ej: Gómez Vega, Evans, Johansson');
+  $('#id_email').attr('placeholder', 'Ej: cevans@marvels.com');
+  $('#id_password1').attr('placeholder', '8 caracteres como mínimo');
+  $('#id_password2').attr('placeholder', 'Repetir la contraseña escogida');
+  $('#id_rut').attr('placeholder', 'Ej: 11111111-1 (sin puntos y con guión)');
+  $('#id_direccion').attr('placeholder', 'Calle, n° casa o edificio, n° departamento o piso\n'
+    + 'localidad o ciudad, código postal o de área\n'
+    + 'estado o provincia, ciudad, país');
+
+
+  $.extend($.validator.messages, {
+    required: "Este campo es requerido",
+  });
 
   $('#form').validate({ 
     rules: {
-      rut: {
+        'username': {
           required: true,
-          rutChileno: true
-      },
-      nombre:{
-          required: true,
-          soloLetras: true,
-      },
-      apellido:{
+        },
+        'first_name': {
           required: true,
           soloLetras: true,
-      },
-      correo:{
+        },
+        'last_name': {
+          required: true,
+          soloLetras: true,
+        },
+        'email': {
           required: true,
           emailCompleto: true,
-      },
-      direccion:{
+        },
+        'rut': {
           required: true,
-      },
-      password: {
+          rutChileno: true,
+        },
+        'direccion': {
           required: true,
-          minlength: 5,
-          maxlength: 15,
+        },
       },
-      password2: {
-          required: true,
-          equalTo: "#password",
+      messages: {
+        'username': {
+          required: 'Debe ingresar un nombre de usuario',
+        },
+        'first_name': {
+          required: 'Debe ingresar su nombre',
+          soloLetras: "El nombre sólo puede contener letras y espacios en blanco",
+        },
+        'last_name': {
+          required: 'Debe ingresar sus apellidos',
+          soloLetras: "Los apellidos sólo pueden contener letras y espacios en blanco",
+        },
+        'email': {
+          required: 'Debe ingresar su correo',
+          emailCompleto: 'El formato del correo no es válido',
+        },
+        'rut': {
+          required: 'Debe ingresar su RUT',
+          rutChileno: 'El formato del RUT no es válido',
+        },
+        'direccion': {
+          required: 'Debe ingresar su dirección',
+        },
       },
-  }, // --> Fin de reglas
-  messages: {
-      rut: {
-          required: "El RUT es un campo obligatorio",
-          rutChileno: "El formato del RUT no es válido"
-      },
-      nombre:{
-          required: "El Nombre es un campo obligatorio",
-      },
-      apellido:{
-          required: "El Apellido es un campo obligatorio",
-      },
-      correo: {
-          required: "El Email es un campo obligatorio",
-          emailCompleto: "El email no cumple el formato de un correo",
-      },
-      direccion:{
-          required: "La Dirección es un campo obligatorio",
-      },
-      password:{
-          required: "La Contraseña es un campo obligatorio",
-          minlength: "Mínimo 5 caracteres",
-          maxlength: "Máximo 15 caracteres"
-      },
-      password2: {
-          required: "Repita la contraseña anterior",
-          equalTo: "Debe ser igual al campo contraseña",
-      },
-
-  },
       errorPlacement: function(error, element) {
         error.insertAfter(element); // Inserta el mensaje de error después del elemento
         error.addClass('error-message'); // Aplica una clase al mensaje de error
@@ -155,7 +144,7 @@ document.getElementById('rut').addEventListener('keyup', function(e) {
           $('#id_subscrito').val(true);
           $('#id_imagen').val('');
           $('#id_password1').val('Duoc@123');
-          $('#id_password2').val('Duoc@123');
+          $('#id_password2').val('Duoc@123');   
 
           Swal.fire({
             title: 'Se ha creado un nuevo usuario de prueba',

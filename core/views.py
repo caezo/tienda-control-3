@@ -19,8 +19,9 @@ from .forms import UsuarioForm, PerfilForm  # Asegúrate de importar tus formula
 from django.db import transaction, IntegrityError
 from django import template
 from django.db import models
-from .models import Producto, Bodega
-from .forms import ProductoForm
+
+
+
 
 
 
@@ -236,6 +237,7 @@ def ventas(request):
 @user_passes_test(es_personal_autenticado_y_activo)
 def productos(request, accion, id):
     if request.method == 'POST':
+        # Procesar formulario si se envió por POST
         if accion == 'crear':
             form = ProductoForm(request.POST, request.FILES)
         elif accion == 'actualizar':
@@ -247,9 +249,9 @@ def productos(request, accion, id):
             return redirect('productos', 'actualizar', producto.id)
         else:
             messages.error(request, 'No fue posible guardar el producto')
-            # En caso de error, si es necesario, podrías agregar el manejo del form aquí también
+            # En caso de error, manejar el form aquí si es necesario
     else:
-        form = None  # Define form inicialmente como None
+        form = None  # Definir form inicialmente como None
         
         if accion == 'crear':
             form = ProductoForm()
@@ -259,20 +261,21 @@ def productos(request, accion, id):
             try:
                 with transaction.atomic():
                     producto = get_object_or_404(Producto, id=id)
-                    
-                    # Eliminar objetos relacionados primero
+                
+                    # Eliminar objetos relacionados primero (ejemplo: Bodega)
                     Bodega.objects.filter(producto=producto).delete()
-                    
+
                     # Ahora eliminar el producto
                     producto.delete()
-                    
+            
                     messages.success(request, 'Producto eliminado correctamente.')
                     
+            
             except IntegrityError:
-                messages.error(request, 'No se puede eliminar el producto debido a restricciones de clave foránea.')
-    
-    productos1 = Producto.objects.all()
-    return render(request, "core/productos.html", {'form': form, 'productos': productos1})
+                messages.error(request, 'No se puede eliminar el producto.')
+
+    productos = Producto.objects.all()
+    return render(request, "core/productos.html", {'form': form, 'productos': productos})
 
 @user_passes_test(es_personal_autenticado_y_activo)
 def usuarios(request, accion, id):
@@ -625,6 +628,12 @@ def vaciar_carrito(request):
         messages.info(request, 'Se ha cancelado la compra, el carrito se encuentra vacío.')
     return redirect(carrito)
 
+def eliminar_producto(request, id):
+    if request.method == "POST":
+        producto = get_object_or_404(Producto, id=id)
+        producto.delete()
+        return redirect("agregar_productos")
+    return JsonResponse({"Error": "Método no permitido."}, status=405)
 
 # CAMBIO DE PASSWORD Y ENVIO DE PASSWORD PROVISORIA POR CORREO
 

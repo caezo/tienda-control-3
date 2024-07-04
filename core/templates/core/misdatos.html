@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container mt-5">
-  <div class="card" style="background-color: #f8f9fa;" >
+  <div class="card" style="background-color: #f8f9fa;">
     <div class="card-header text-center">
       <h3>Actualizar datos</h3>
     </div>
@@ -34,12 +34,14 @@
             <h4>Imagen de Perfil</h4>
             <div class="profile-image mb-3">
               <img id="cuadro-imagen" src="{% static 'core/img/sin-imagen.png' %}" class="img-thumbnail" alt="Imagen de Perfil">
+            </div>
+          </div>
         </div>
 
         <!-- ÁREA DE BOTONES -->
         <div class="row mt-4">
           <div class="col-sm-12 text-center">
-            <button type="submit" class="btn btn-primary">Registrarme</button>
+            <button type="submit" class="btn btn-primary">Actualizar</button>
             <button type="reset" class="btn btn-secondary ml-2" id="limpiar_formulario">Limpiar</button>
             <button type="button" class="btn btn-info ml-2" id="crear_usuario_prueba">Crear usuario de prueba</button>
           </div>
@@ -54,4 +56,15 @@
 
 {% block script %}
 <script src="{% static 'core/js/registrarme.js' %}"></script>
+<script>
+  $(document).ready(function() {
+    // Llenar automáticamente los campos con los datos del usuario
+    $('#id_username').val('{{ request.user.username }}');
+    $('#id_first_name').val('{{ request.user.first_name }}');
+    $('#id_last_name').val('{{ request.user.last_name }}');
+    $('#id_email').val('{{ request.user.email }}');
+    $('#id_rut').val('{{ request.user.perfil.rut }}');  // Asumiendo que tienes un campo 'rut' en el perfil del usuario
+    $('#id_direccion').val('{{ request.user.perfil.direccion }}');  // Asumiendo que tienes un campo 'direccion' en el perfil del usuario
+  });
+</script>
 {% endblock script %}

@@ -7,6 +7,8 @@ from .views import premio, eliminar_producto_en_carrito, agregar_producto_al_car
 from .views import vaciar_carrito, mipassword, cambiar_password, comprar_ahora
 from .views import administracion,administrar , registro
 from .views import agregar_producto_al_carrito
+from . import views
+
 urlpatterns = [
     
 path('registro', registro, name='registro'),
@@ -39,6 +41,7 @@ path('registro', registro, name='registro'),
     path('premio', premio, name='premio'),
     path('poblar', poblar, name='poblar'),
     path('agregar_producto_al_carrito/<int:producto_id>/', agregar_producto_al_carrito, name='agregar_producto_al_carrito'),
+    
     
     
 
