@@ -1,16 +1,27 @@
 <script type="text/javascript">
-$(document).ready(function() {
-
-  var mensajes = `{{ backend_messages }}`;
-  var icon = `{{ backend_message_type }}`;
-
-  if (mensajes != '') {
-    Swal.fire({
-      title: 'Sword Games Shop te Informa',
-      html: mensajes,
-      icon: icon,
-      confirmButtonText: 'Aceptar'
-    });
-  }
-});
-</script>
+  $(document).ready(function() {
+  
+    var mensajes = `{{ backend_messages }}`;
+    var icon = `{{ backend_message_type }}`;
+  
+    if (mensajes != '') {
+      Swal.fire({
+        title: 'Cthulhu Games te Informa',
+        html: mensajes,
+        icon: icon,
+        confirmButtonText: 'Aceptar',
+        customClass: {
+          popup: 'swal-popup-class', 
+          title: 'swal-title-class',
+          text: 'swal-text-class',
+          confirmButton: 'swal-confirm-button-class',
+        },
+        background: 'rgb(222, 218, 208)',  // Color de fondo sólido del cuadro de mensaje
+        padding: '2rem',  // Espaciado interior del cuadro de mensaje
+        border: '2px solid #00FF00',  // Borde del cuadro de mensaje (verde en este caso)
+        borderRadius: '15px',  // Radio de borde del cuadro de mensaje
+        iconColor: '#308D14',  // Color del icono de advertencia (rojo en este caso)
+      });
+    }
+  });
+  </script>

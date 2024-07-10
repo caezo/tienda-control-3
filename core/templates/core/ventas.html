@@ -4,12 +4,10 @@
 
 {% block content %}
     
-<div class="instrucciones-para-el-alumno">
-    INSTRUCCIONES PARA EL ALUMNO (ELIMINALO DESPUES DE LEERLO):<br>
-    - Construye tu tabla de historial de ventas, pero puedes usar los campos sugeridos. <br>
-  </div>
-
-    <table id="tabla-principal" class="table table-hover">
+  <div class="container mt-5">
+    <h1 class="text-center texto ">Ventas</h1>
+    <br>
+    <table id="tabla-principal" class="fondo_negro borde table table-bordered table-hover ">
         <thead>
             <tr>
                 <th> Nro boleta </th>
@@ -42,7 +40,7 @@
                 <td> {{boleta.total_a_pagar|formatear_dinero}} </td>
                 <td> {{boleta.estado}}</td>
                     <td>
-                        <a href="{% url 'boleta' boleta.nro_boleta %}" class="btn btn-sm btn-primary">Detalle</a>
+                        <a href="{% url 'boleta' boleta.nro_boleta %}" class="btn btn-sm btn-dark">Detalle</a>
                     </td>
                     <td>
                         <span>
@@ -58,5 +56,6 @@
             {% endfor %}
         </tbody>       
     </table>
+</div>
 
 {% endblock content %}

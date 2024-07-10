@@ -166,7 +166,7 @@ class Boleta(models.Model):
         }
 
 class Bodega(models.Model):
-    producto = models.ForeignKey(Producto, on_delete=models.DO_NOTHING, verbose_name='Producto')
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE, verbose_name='Producto')
 
     class Meta:
         db_table = 'Bodega'

@@ -1,6 +1,3 @@
-$(document).ready(function() {
-
-  // Método para validar RUT chileno
   $(document).ready(function() {
     // Método para validar RUT chileno
     $.validator.addMethod("rutChileno", function(value, element) {
@@ -22,6 +19,13 @@ $(document).ready(function() {
         return dv === dvCalculado;
     }, "El RUT no es válido (escriba sin puntos y con guión)");
 
+
+    $(document).ready(function() {
+      // Función para limpiar el formulario al hacer clic en el botón de limpiar
+      $('#limpiar_formulario').click(function() {
+          $('#form')[0].reset();  // Resetea el formulario con ID 'form'
+          $('#cuadro-imagen').attr('src', '{% static "core/img/sin-imagen.png" %}');  // Restablece la imagen de perfil a la imagen predeterminada
+      });
     // Método para validar correo electrónico completo
     $.validator.addMethod("emailCompleto", function(value, element) {
         var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z\-0-9]{2,}))$/;
@@ -81,6 +85,14 @@ $(document).ready(function() {
                 required: true,
                 emailCompleto: true
             },
+            'password1': {
+                required: true,
+                minlength: 8
+            },
+            'password2': {
+                required: true,
+                equalTo: "#id_password1"
+            },
             'rut': {
                 required: true,
                 rutChileno: true
@@ -106,6 +118,14 @@ $(document).ready(function() {
                 emailCompleto: 'El formato del correo no es válido',
                 email: 'Por favor, introduce una dirección de correo electrónico válida.'
             },
+            'password1': {
+                required: 'Debe ingresar una contraseña',
+                minlength: 'La contraseña debe tener al menos 8 caracteres',
+            },
+            'password2': {
+                required: 'Debe confirmar su contraseña',
+                equalTo: 'Las contraseñas no coinciden',
+            },
             'rut': {
                 required: 'Debe ingresar su RUT',
                 rutChileno: 'El formato del RUT no es válido',
@@ -120,12 +140,46 @@ $(document).ready(function() {
         },
     });
 
+    $('#crear_usuario_prueba').click(function(event) {
+        event.preventDefault();
+        $.get('https://randomuser.me/api/?results=1', // API para obtener datos de usuario al azar
+            function(data){
+                $.each(data.results, function(i, item) { // Recorrer las filas devueltas por la API
 
+                    $('#limpiar_formulario').click();
+
+                    $('#id_username').val(item.login.username);
+                    $('#id_first_name').val(item.name.first);
+                    $('#id_last_name').val(item.name.last);
+                    $('#id_email').val(item.email);
+                    $('#id_rut').val('11.111.111-1');
+                    let dir = `${item.location.street.number} ${item.location.street.name}\n${item.location.city}\n${item.location.country}`;
+                    $('#id_direccion').val(dir);
+                    $('#id_subscrito').prop('checked', true);
+                    $('#id_imagen').val('');
+                    $('#id_password1').val('Duoc@123');
+                    $('#id_password2').val('Duoc@123');   
+
+                    Swal.fire({
+                        title: 'Se ha creado un nuevo usuario de prueba',
+                        html: 
+                            `Se ha llenado el formulario con 
+                            los datos de un usuario de prueba al azar, con la password 
+                            por defecto: <br><br> <strong> "Duoc@123" </strong> <br><br>Si lo deseas puedes 
+                            seleccionar una imagen de perfil y registrar este nuevo 
+                            usuario presionando el botón <br><br> <strong> "Registarme" </strong>.`,
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOutUp'
+                        }
+                    });
+                });
+            }
+        );
+    });
 });
 
   
-  
-
-});
-
-
+  })

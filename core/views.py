@@ -166,40 +166,66 @@ def registrarme(request):
 
     return render(request, 'core/registrarme.html', context)
 
+
 @login_required
 def misdatos(request):
+    usuario = request.user
+    try:
+        perfil = usuario.perfil
+    except Perfil.DoesNotExist:
+        perfil = None
 
     if request.method == 'POST':
-
-        form_usuario = RegistroUsuarioForm(request.POST)
-        form_perfil = RegistroPerfilForm(request.POST, request.FILES)
+        form_usuario = UsuarioForm(request.POST, instance=usuario)
+        form_perfil = RegistroPerfilForm(request.POST, request.FILES, instance=perfil)
 
         if form_usuario.is_valid() and form_perfil.is_valid():
-            usuario = form_usuario.save(commit=False)
-            usuario.is_staff = False
+            usuario = form_usuario.save()
             perfil = form_perfil.save(commit=False)
-            usuario.save()
-            perfil.usuario_id = usuario.id
-            perfil.tipo_usuario = 'Cliente'
+            perfil.usuario = usuario
             perfil.save()
-            premium = 'y aprovechar tus descuentos especiales como cliente PREMIUM' if hasattr(perfil, 'premium') and perfil.premium else ''
-            mensaje = f'Tu cuenta de usuario: "{usuario.username}" ha sido creada con éxito. ¡Ya puedes iniciar sesión {premium}!'
-            messages.success(request, mensaje)
-            return redirect(ingresar)
+            messages.success(request, 'Tus datos han sido actualizados correctamente.')
+            return redirect('misdatos')
         else:
-            messages.error(request, 'No fue posible crear tu cuenta de cliente.')
-        show_form_errors(request, [form_usuario, form_perfil])
+            messages.error(request, 'No fue posible actualizar tus datos.')
 
-    if request.method == 'GET':
-
-        form_usuario = RegistroUsuarioForm()
-        form_perfil = RegistroPerfilForm()
+    else:
+        form_usuario = UsuarioForm(instance=usuario)
+        form_perfil = RegistroPerfilForm(instance=perfil)
 
     context = {
         'form_usuario': form_usuario,
         'form_perfil': form_perfil,
     }
 
+    return render(request, 'core/misdatos.html', context)
+    usuario = request.user
+    perfil = usuario.perfil if hasattr(usuario, 'perfil') else None
+
+    if request.method == 'POST':
+        form_usuario = UsuarioForm(request.POST, instance=usuario)
+        form_perfil = RegistroPerfilForm(request.POST, request.FILES, instance=perfil)
+
+        if form_usuario.is_valid() and form_perfil.is_valid():
+            usuario = form_usuario.save()
+            perfil = form_perfil.save(commit=False)
+            perfil.usuario = usuario
+            perfil.save()
+            premium = 'y aprovechar tus descuentos especiales como cliente PREMIUM' if perfil.premium else ''
+            mensaje = f'Tus datos han sido actualizados correctamente {premium}!'
+            messages.success(request, mensaje)
+            return redirect('misdatos')
+        else:
+            messages.error(request, 'No fue posible actualizar tus datos.')
+
+    else:
+        form_usuario = UsuarioForm(instance=usuario)
+        form_perfil = RegistroPerfilForm(instance=perfil)
+
+    context = {
+        'form_usuario': form_usuario,
+        'form_perfil': form_perfil,
+    }
 
     return render(request, 'core/misdatos.html', context)
 
@@ -269,14 +295,12 @@ def productos(request, accion, id):
                     producto.delete()
             
                     messages.success(request, 'Producto eliminado correctamente.')
-                    
             
             except IntegrityError:
                 messages.error(request, 'No se puede eliminar el producto.')
 
     productos = Producto.objects.all()
     return render(request, "core/productos.html", {'form': form, 'productos': productos})
-
 @user_passes_test(es_personal_autenticado_y_activo)
 def usuarios(request, accion, id):
     

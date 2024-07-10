@@ -16,7 +16,18 @@
         <div class="row">
           <div class="col-sm-12">
             <h4>Datos de Usuario</h4>
-            {{ form_usuario|as_bootstrap_form }}
+            {{ form_usuario.username|as_bootstrap_field }}
+            {{ form_usuario.first_name|as_bootstrap_field }}
+            {{ form_usuario.last_name|as_bootstrap_field }}
+            {{ form_usuario.email|as_bootstrap_field }}
+            <!-- Mostrar errores específicos del formulario de usuario -->
+            {% for field in form_usuario %}
+              {% for error in field.errors %}
+                <div class="alert alert-danger">
+                  <strong>{{ field.label }}:</strong> {{ error }}
+                </div>
+              {% endfor %}
+            {% endfor %}
           </div>
         </div>
 
@@ -25,6 +36,14 @@
           <div class="col-sm-12">
             <h4>Datos de Perfil</h4>
             {{ form_perfil|as_bootstrap_form }}
+            <!-- Mostrar errores específicos del formulario de perfil -->
+            {% for field in form_perfil %}
+              {% for error in field.errors %}
+                <div class="alert alert-danger">
+                  <strong>{{ field.label }}:</strong> {{ error }}
+                </div>
+              {% endfor %}
+            {% endfor %}
           </div>
         </div>
         
@@ -33,7 +52,7 @@
           <div class="col-sm-12 text-center">
             <h4>Imagen de Perfil</h4>
             <div class="profile-image mb-3">
-              <img id="cuadro-imagen" src="{% static 'core/img/sin-imagen.png' %}" class="img-thumbnail" alt="Imagen de Perfil">
+              <img id="cuadro-imagen" src="{% if request.user.perfil.imagen %}{{ request.user.perfil.imagen.url }}{% else %}{% static 'core/img/sin-imagen.png' %}{% endif %}" class="img-thumbnail" alt="Imagen de Perfil">
             </div>
           </div>
         </div>
@@ -41,9 +60,7 @@
         <!-- ÁREA DE BOTONES -->
         <div class="row mt-4">
           <div class="col-sm-12 text-center">
-            <button type="submit" class="btn btn-primary">Actualizar</button>
-            <button type="reset" class="btn btn-secondary ml-2" id="limpiar_formulario">Limpiar</button>
-            <button type="button" class="btn btn-info ml-2" id="crear_usuario_prueba">Crear usuario de prueba</button>
+            <button type="submit" class="btn btn-dark">Actualizar</button>
           </div>
         </div>
 
@@ -55,7 +72,7 @@
 {% endblock content %}
 
 {% block script %}
-<script src="{% static 'core/js/registrarme.js' %}"></script>
+<script src="{% static 'core/js/misdatos.js' %}"></script>
 <script>
   $(document).ready(function() {
     // Llenar automáticamente los campos con los datos del usuario
@@ -63,8 +80,10 @@
     $('#id_first_name').val('{{ request.user.first_name }}');
     $('#id_last_name').val('{{ request.user.last_name }}');
     $('#id_email').val('{{ request.user.email }}');
-    $('#id_rut').val('{{ request.user.perfil.rut }}');  // Asumiendo que tienes un campo 'rut' en el perfil del usuario
-    $('#id_direccion').val('{{ request.user.perfil.direccion }}');  // Asumiendo que tienes un campo 'direccion' en el perfil del usuario
+    {% if request.user.perfil %}
+      $('#id_rut').val('{{ request.user.perfil.rut }}');  // Asumiendo que tienes un campo 'rut' en el perfil del usuario
+      $('#id_direccion').val('{{ request.user.perfil.direccion }}');  // Asumiendo que tienes un campo 'direccion' en el perfil del usuario
+    {% endif %}
   });
 </script>
 {% endblock script %}
