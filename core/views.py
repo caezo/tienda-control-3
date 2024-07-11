@@ -15,17 +15,13 @@ from .forms import RegistroUsuarioForm, RegistroPerfilForm
 from .templatetags.custom_filters import formatear_dinero, formatear_numero
 from .tools import eliminar_registro, verificar_eliminar_registro, show_form_errors
 from django.core.mail import send_mail
-from .forms import UsuarioForm, PerfilForm  # Asegúrate de importar tus formularios
-from django.db import transaction, IntegrityError
-from django import template
-from django.db import models
 
 
 
 
 
 
-register = template.Library()
+
 
 # *********************************************************************************************************#
 #                                                                                                          #
@@ -262,113 +258,97 @@ def ventas(request):
 
 @user_passes_test(es_personal_autenticado_y_activo)
 def productos(request, accion, id):
-    if request.method == 'POST':
-        # Procesar formulario si se envió por POST
-        if accion == 'crear':
+    form = None  # Inicializa `form` con un valor predeterminado
+    
+    if accion == 'crear':
+        if request.method == 'POST':
             form = ProductoForm(request.POST, request.FILES)
-        elif accion == 'actualizar':
-            form = ProductoForm(request.POST, request.FILES, instance=get_object_or_404(Producto, id=id))
-        
-        if form.is_valid():
-            producto = form.save()
-            messages.success(request, f'El producto "{producto}" se logró {accion} correctamente')
-            return redirect('productos', 'actualizar', producto.id)
         else:
-            messages.error(request, 'No fue posible guardar el producto')
-            # En caso de error, manejar el form aquí si es necesario
-    else:
-        form = None  # Definir form inicialmente como None
-        
-        if accion == 'crear':
             form = ProductoForm()
-        elif accion == 'actualizar':
-            form = ProductoForm(instance=get_object_or_404(Producto, id=id))
-        elif accion == 'eliminar':
-            try:
-                with transaction.atomic():
-                    producto = get_object_or_404(Producto, id=id)
-                
-                    # Eliminar objetos relacionados primero (ejemplo: Bodega)
-                    Bodega.objects.filter(producto=producto).delete()
 
-                    # Ahora eliminar el producto
-                    producto.delete()
-            
-                    messages.success(request, 'Producto eliminado correctamente.')
-            
-            except IntegrityError:
-                messages.error(request, 'No se puede eliminar el producto.')
+        if request.method == 'POST' and form.is_valid():
+            producto = form.save()
+            messages.success(request, f'El producto "{str(producto)}" se creó correctamente.')
+            return redirect('productos', 'actualizar', producto.id)
+        elif request.method == 'POST':
+            show_form_errors(request, [form])
+            messages.error(request, f'El producto no se pudo crear correctamente.')
 
-    productos = Producto.objects.all()
-    return render(request, "core/productos.html", {'form': form, 'productos': productos})
+    elif accion == 'actualizar':
+        try:
+            producto = Producto.objects.get(id=id)
+        except Producto.DoesNotExist:
+            messages.error(request, f'El producto con id {id} no existe.')
+            return redirect('productos', 'crear', 0)
+
+        if request.method == 'POST':
+            form = ProductoForm(request.POST, request.FILES, instance=producto)
+            if form.is_valid():
+                form.save()
+                messages.success(request, f'El producto "{str(producto)}" se actualizó correctamente.')
+                return redirect('productos', 'actualizar', producto.id)
+            else:
+                show_form_errors(request, [form])
+                messages.error(request, f'El producto no se pudo actualizar correctamente.')
+        else:
+            form = ProductoForm(instance=producto)
+
+    elif accion == 'eliminar':
+        eliminado, mensaje = eliminar_registro(Producto, id)
+        messages.success(request, mensaje)
+        if eliminado:
+            return redirect('productos', 'crear', 0)
+
+    context = {
+        'form': form,
+        'productos': Producto.objects.all()
+    }
+
+    return render(request, 'core/productos.html', context)
 @user_passes_test(es_personal_autenticado_y_activo)
 def usuarios(request, accion, id):
+    usuario = User.objects.get(id=id) if int(id) > 0 else None
     
+    # Manejo de excepciones para verificar si el perfil existe
+    try:
+        perfil = usuario.perfil if usuario else None
+    except Perfil.DoesNotExist:
+        perfil = None
+
     if request.method == 'POST':
-        if accion == 'crear':
-            form_usuario = UsuarioForm(request.POST)
-            form_perfil = PerfilForm(request.POST, request.FILES)
+        form_usuario = UsuarioForm(request.POST, instance=usuario)
+        form_perfil = PerfilForm(request.POST, request.FILES, instance=perfil)
 
-            if form_usuario.is_valid() and form_perfil.is_valid():
-                usuario = form_usuario.save(commit=False)
-                usuario.is_staff = False  # Asignar el rol adecuado
-                usuario.save()
+        if form_usuario.is_valid() and form_perfil.is_valid():
+            usuario = form_usuario.save(commit=False)
+            tipo_usuario = form_perfil.cleaned_data['tipo_usuario']
+            usuario.is_staff = tipo_usuario in ['Administrador', 'Superusuario']
+            perfil = form_perfil.save(commit=False)
+            usuario.save()
+            perfil.usuario_id = usuario.id
+            perfil.save()
+            messages.success(request, f'El usuario {usuario.first_name} {usuario.last_name} fue guardado exitosamente.')
+            return redirect(usuarios, 'actualizar', usuario.id)
+        else:
+            messages.error(request, f'No fue posible guardar el nuevo usuario.')
+            show_form_errors(request, [form_usuario, form_perfil])
 
-                perfil = form_perfil.save(commit=False)
-                perfil.usuario = usuario
-                perfil.save()
-
-                return redirect(reverse('usuarios', args=['crear', 0]))
-
-        elif accion == 'actualizar':
-            usuario = get_object_or_404(User, id=id)
-            perfil = get_object_or_404(Perfil, usuario=usuario)
-
-            form_usuario = UsuarioForm(request.POST, instance=usuario)
-            form_perfil = PerfilForm(request.POST, request.FILES, instance=perfil)
-
-            if form_usuario.is_valid() and form_perfil.is_valid():
-                form_usuario.save()
-                form_perfil.save()
-
-                return redirect(reverse('usuarios', args=['actualizar', id]))
-
-    elif request.method == 'GET':
+    if request.method == 'GET':
         if accion == 'eliminar':
-            try:
-                with transaction.atomic():
-                    usuario = get_object_or_404(User, id=id)
-                    # Eliminar objetos relacionados primero
-                    Perfil.objects.filter(usuario=usuario).delete()
-                    # Ahora eliminar el usuario
-                    usuario.delete()
-                messages.success(request, 'Usuario eliminado correctamente.')
-                return redirect(reverse('usuarios', args=['crear', 0]))
-            except IntegrityError:
-                messages.error(request, 'No se puede eliminar el usuario debido a restricciones de clave foránea.')
-                return redirect(reverse('usuarios', args=['crear', 0]))
-
-
-        elif accion == 'crear':
-            form_usuario = UsuarioForm()
-            form_perfil = PerfilForm()
-
-        else:  # accion == 'actualizar'
-            usuario = get_object_or_404(User, id=id)
-            perfil = get_object_or_404(Perfil, usuario=usuario)
+            eliminado, mensaje = eliminar_registro(User, id)
+            messages.success(request, mensaje)
+            return redirect(usuarios, 'crear', '0')
+        else:
             form_usuario = UsuarioForm(instance=usuario)
             form_perfil = PerfilForm(instance=perfil)
 
     context = {
         'form_usuario': form_usuario,
         'form_perfil': form_perfil,
-        'usuarios': User.objects.all(),  # Obtener todos los usuarios para mostrar en la tabla
+        'usuarios': User.objects.all(),
     }
 
-    return render(request, 'core/usuarios.html', context)  
-@user_passes_test(es_personal_autenticado_y_activo)
-
-
+    return render(request, 'core/usuarios.html', context)
 @user_passes_test(es_personal_autenticado_y_activo)
 def eliminar_usuario(request, id):
     usuario = get_object_or_404(User, id=id)

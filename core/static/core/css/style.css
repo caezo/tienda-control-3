@@ -107,8 +107,19 @@ background: linear-gradient(87deg, rgba(222,218,208,1) 21%, rgba(198,182,158,1) 
   color: rgb(189, 70, 70);
   font-weight: bolder;
 }
-/* Descomenta el selector div a continuación si quieres ver la diagramación de tu página */
-/* div {
-  border: 1px solid blue;
-} */
-/* Estilo personalizado para el cuadro de mensaje de SweetAlert */
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hace que el cuerpo de la tarjeta y el pie de la tarjeta se expandan para llenar el espacio disponible */
+.card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Asegura que el pie de la tarjeta esté siempre en la parte inferior */
+.card-footer {
+  margin-top: auto;
+}
