@@ -597,7 +597,7 @@ def agregar_producto_al_carrito(request, producto_id):
         descuentos=descuentos,
         precio_a_pagar=precio_a_pagar
     )
-
+    messages.success(request,"El producto ha sido añadido al carrito exitosamente")
     return redirect(ficha, producto_id)
 
 @user_passes_test(es_cliente_autenticado_y_activo)
