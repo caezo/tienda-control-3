@@ -61,4 +61,19 @@
 
 {% block script %}
 <script src="{% static 'core/js/registro.js' %}"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Obtener el campo de imagen
+    var inputImagen = document.getElementById("id_imagen");
+  
+    // Escuchar el evento de cambio en el campo de imagen
+    inputImagen.addEventListener("change", function() {
+      var file = inputImagen.files[0]; // Obtener el archivo seleccionado
+      var img = document.getElementById("cuadro-imagen");
+  
+      // Crear una URL local para mostrar la imagen seleccionada
+      img.src = URL.createObjectURL(file);
+    });
+  });
+  </script>
 {% endblock script %}

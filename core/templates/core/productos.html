@@ -36,6 +36,9 @@
                 <div class="form-group col-md-12">
                   {{ form.descuento_oferta|as_bootstrap_field }}
                 </div>
+                <div class="form-group col-md-12">
+                  {{ form.imagen|as_bootstrap_field }}
+                </div>
               </form>
             </div>
           </div>
@@ -45,13 +48,14 @@
           <div class="card border-0" style="background-color: inherit;">
             <div class="card-body text-center">
               <!-- Imagen del producto -->
-              {% if form.instance.imagen %}
-              <img id="cuadro-imagen" src="/media/{{ form.instance.imagen }}" class="img-fluid">
+              {% if form.imagen.value %}
+              <img id="cuadro-imagen" src="/media/{{ form.imagen.value }}" class="img-fluid">
               {% else %}
               <img id="cuadro-imagen" src="{% static 'core/img/sin-imagen.png' %}" class="img-fluid">
               {% endif %}
   
-
+             
+              
             </div>
           </div>
         </div>
@@ -65,62 +69,98 @@
           {% if form.instance.id %}
           <a class="btn btn-dark" href="{% url 'productos' 'eliminar' form.instance.id %}">Eliminar</a>
           {% endif %}
-          <input type="file" id="id_imagen" name="imagen" style="display: none;" onchange="document.getElementById('cuadro-imagen').src = window.URL.createObjectURL(this.files[0])">
-                <button onclick="event.preventDefault(); document.getElementById('id_imagen').click();" class="btn btn-dark">Seleccionar imagen</button>
         </div>
       </div>
   
     </div>
+  
+
   </form>
   
-  <br>
+<br>
+
   
-  {% if productos %}
-  <div class="container mt-6">   
-    <table id="tabla-principal" class="fondo_negro borde table table-bordered table-hover">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Categoría</th>
-          <th>Nombre</th>
-          <th>Descripción</th>
-          <th>Precio</th>
-          <th>%Subs</th>
-          <th>%Oferta</th>
-          <th>Imagen</th>
-          <th>Editar</th>
-          <th>Eliminar</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for producto in productos %}
-        <tr>
-          <td>{{ producto.id }}</td>
-          <td>{{ producto.categoria }}</td>
-          <td>{{ producto.nombre }}</td>
-          <td>{{ producto.descripcion }}</td>
-          <td>{{ producto.precio|formatear_dinero }}</td>
-          <td>{{ producto.descuento_subscriptor|formatear_porcentaje }}</td>
-          <td>{{ producto.descuento_oferta|formatear_porcentaje }}</td>
-          <td>
-            <img src="/media/{{ producto.imagen }}" class="producto-sm" alt="">
-          </td>
-          <td>
-            <a href="{% url 'productos' 'actualizar' producto.id %}" class="btn btn-primary btn-sm">Editar</a>
-          </td>
-          <td>
-            <form method="delete">
-              <a href="{% url 'productos' 'eliminar' producto.id %}" class="btn btn-danger btn-sm">Eliminar</a>
-            </form>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
+  {% if productos %} 
+  
+
+
+
+  <div class=" container mt-6">   
+    <table id="tabla-principal" class=" fondo_negro borde table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th> ID </th>
+                <th> Categoría </th>
+                <th> Nombre </th>
+                <th> Descripción </th>
+                <th> Precio </th>
+                <th> %Subs </th>
+                <th> %Oferta </th>
+                <th> Imagen </th>
+                <th> Editar </th>
+                <th> Eliminar </th>
+            </tr>
+        </thead>
+        <tbody>
+          
+            {% for producto in productos %}
+            <td>{{ producto.id}}</td>
+             <td>{{ producto.categoria}}</td>
+             <td>{{ producto.nombre}}</td>
+             <td>{{producto.descripcion}}</td>
+             <td>{{ producto.precio|formatear_dinero}}</td>
+             <td>{{ producto.descuento_subscriptor|formatear_porcentaje}}</td>
+             <td>{{ producto.descuento_oferta|formatear_porcentaje}}</td>
+              <td>
+                  <img src="/media/{{ producto.imagen }}" class="producto-sm" alt="">
+              </td>
+              <td>
+                  <a href="{% url 'productos' 'actualizar' producto.id %}" class="btn btn-primary btn-sm"> Editar </a>
+              </td>
+              <td>
+                  <form method="delete">
+                      <a href="{% url 'productos' 'eliminar' producto.id %}" class="btn btn-danger btn-sm"> Eliminar </a>
+                  </form>
+              </td>
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
   </div>
+  
+  
   {% endif %}
+  
+
+
 {% endblock content %}
 
 {% block script %}
-<script src="{% static 'core/js/productos.js' %}"></script>
+
+<input type="hidden" id="url_obtener_productos" value="{% url 'obtener_productos' %}">
+<script src="{% static 'core/js/bodegaa.js' %}"></script>
+<input type="hidden" id="url_obtener_productos" value="{% url 'obtener_productos' %}">
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+  <script src="{% static 'core/js/productos.js' %}"></script>
+  <script>
+    $(document).ready(function() {
+      $('#tabla-principal').DataTable({
+        "language": {
+          "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+        }
+      });
+      
+      // Escuchar cambios en el input de imagen
+      $('#id_imagen').change(function(evt) {
+        const file = evt.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          $('#cuadro-imagen').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+  </script>
 {% endblock script %}

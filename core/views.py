@@ -120,7 +120,9 @@ def ingresar(request):
 
     return render(request, "core/ingresar.html", context)
 
-
+def comprar_ahora(request):
+    messages.error(request, f'El pago aún no ha sido implementado.')
+    return redirect(inicio)
 
 @login_required
 def salir(request):

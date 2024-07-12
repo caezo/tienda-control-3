@@ -9,6 +9,7 @@ $(document).ready(function() {
         }
     }
 
+    
     // Asignar placeholders para ayudar a los usuarios
     $('#id_nombre').attr('placeholder', 'Ej: Diablo 4, Uncharted 2, God of War 2');
     $('#id_descripcion').attr('placeholder', 'Ej: Diablo IV es un juego de rol de acción de mazmorras desarrollado y publicado por Blizzard Entertainment.');
