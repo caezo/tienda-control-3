@@ -15,6 +15,8 @@ from .forms import RegistroUsuarioForm, RegistroPerfilForm
 from .templatetags.custom_filters import formatear_dinero, formatear_numero
 from .tools import eliminar_registro, verificar_eliminar_registro, show_form_errors
 from django.core.mail import send_mail
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 
 
@@ -118,6 +120,8 @@ def ingresar(request):
 
     return render(request, "core/ingresar.html", context)
 
+
+
 @login_required
 def salir(request):
     nombre = request.user.first_name
@@ -195,35 +199,7 @@ def misdatos(request):
     }
 
     return render(request, 'core/misdatos.html', context)
-    usuario = request.user
-    perfil = usuario.perfil if hasattr(usuario, 'perfil') else None
-
-    if request.method == 'POST':
-        form_usuario = UsuarioForm(request.POST, instance=usuario)
-        form_perfil = RegistroPerfilForm(request.POST, request.FILES, instance=perfil)
-
-        if form_usuario.is_valid() and form_perfil.is_valid():
-            usuario = form_usuario.save()
-            perfil = form_perfil.save(commit=False)
-            perfil.usuario = usuario
-            perfil.save()
-            premium = 'y aprovechar tus descuentos especiales como cliente PREMIUM' if perfil.premium else ''
-            mensaje = f'Tus datos han sido actualizados correctamente {premium}!'
-            messages.success(request, mensaje)
-            return redirect('misdatos')
-        else:
-            messages.error(request, 'No fue posible actualizar tus datos.')
-
-    else:
-        form_usuario = UsuarioForm(instance=usuario)
-        form_perfil = RegistroPerfilForm(instance=perfil)
-
-    context = {
-        'form_usuario': form_usuario,
-        'form_perfil': form_perfil,
-    }
-
-    return render(request, 'core/misdatos.html', context)
+    
 
 @login_required
 def boleta(request, nro_boleta):
@@ -397,18 +373,21 @@ def obtener_productos(request):
     # La vista obtener_productos la usa la pagina "Administracion de bodega", para
     # filtrar el combobox de productos cuando el usuario selecciona una categoria
     
-    categoria_id=request.Get.get('categoria')
-    producto=Producto.objects.filter(categoria_id=categoria_id)
-    data=[
+    categoria_id = request.GET.get('categoria_id')
+    if categoria_id is None:
+        return JsonResponse({'error': 'categoria_id is required'}, status=400)
+    
+    productos = Producto.objects.filter(categoria_id=categoria_id)
+    
+    data = [
         {
-            'id':producto.id,
-            'nombre':producto.nombre,
-            'imagen':producto.imagen.url
+            'id': producto.id,
+            'nombre': producto.nombre,
+            'imagen': producto.imagen.url if producto.imagen else ''
         } for producto in productos
     ]
-    # CREAR: Un JSON para devolver los productos que corresponden a la categoria
-
     
+    # CREAR: Un JSON para devolver los productos que corresponden a la categoria
     return JsonResponse(data, safe=False)
 
 @user_passes_test(es_personal_autenticado_y_activo)

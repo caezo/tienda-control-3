@@ -3,37 +3,38 @@
 {% load custom_filters %}
 
 {% block content %}
-<div id="menu_admin"></div>
-<div class="container-fluid mt-5">
-  <h1 class="text-center mb-4 texto">Mantenedor de Bodega</h1>
-
-  <div id="alertContainer"></div>
-
-  <div class="card border-0" style="background-color: inherit;">
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-8">
-          <form id="form" method="POST">
-            {% csrf_token %}
-            
-            {{ form|as_bootstrap_form }}
-            <a class="btn btn-dark" href="{% url 'productos' 'crear' '0' %}">Nuevo</a>
-          </form>
-        </div>
-        <div class="col-md-4">
-          <div class="text-center mb-3">
-            <img id="cuadro-imagen" src="{% static 'core/img/sin-imagen.png' %}" class="img-thumbnail">
+<div class="container">
+      <form id="form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+          <h1 class=""> Mantenedor de Bodega </h1>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="mb-3">
+              {{ form|as_bootstrap_form }}
+            </div>
           </div>
-          <div class="text-center">
-            {{ form.imagen }}
+          <div class="col-md-4">
+            <div class="text-center mb-2">
+              {% if form.imagen.value %}
+                <img id="cuadro-imagen" src="/media/{{ form.imagen.value }}" class="img-thumbnail me-3"
+                     style="width: 250px; height: auto; object-fit: cover; background-color: #1A1A1A;">
+              {% else %}
+                <img id="cuadro-imagen" src="{% static 'core/img/sin-imagen.png' %}" class="img-thumbnail me-3"
+                     style="width: 250px; height: auto; object-fit: cover; background-color: #1A1A1A;">
+              {% endif %}
+            </div>
           </div>
         </div>
-        
+
+        <div class="mt-2 mb-3 text-center">
+          <button type="submit" class="btn btn-dark btn-md"> Agregar </button>
+          <button type="reset" class="btn btn-dark btn-md" onclick="document.getElementById('cuadro-imagen').src='{% static 'core/img/sin-imagen.png' %}';"> Nuevo </button>
         </div>
-    </div>
-  </div>
+      </form>
 </div>
+
 <br />
+
 
 {% if productos %}
 <div class=" container mt-6">  
@@ -76,5 +77,5 @@
 {% block script %}
 
 <input type="hidden" id="url_obtener_productos" value="{% url 'obtener_productos' %}">
-<script src="{% static 'core/js/bodega.js' %}"></script>
+<script src="{% static 'core/js/bodegaa.js' %}"></script>
 {% endblock script %}
