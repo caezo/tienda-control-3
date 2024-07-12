@@ -60,7 +60,7 @@
             {% if form_perfil.imagen.value %}
             <img id="cuadro-imagen" src="/media/{{ form_perfil.imagen.value }}" class="img-fluid">
             {% else %}
-            <img id="cuadro-imagen" src="{% static 'core/img/sin-imagen.png' %}" class="img-fluid">
+            <img id="cuadro-imagen" src="{% static 'core/img/Sin_foto.png' %}" class="img-fluid">
             {% endif %}
 
           </div>
@@ -157,6 +157,7 @@
   <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+  <script src="{% static 'core/js/usuarios.js' %}"></script>
   <script>
     $(document).ready(function() {
       $('#tabla-principal').DataTable({

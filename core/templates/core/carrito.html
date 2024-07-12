@@ -7,7 +7,7 @@
 <div class="container mt-5">
   <h1 class="text-center texto ">Carrito de Compras</h1>
   <br>
-  <table class=" table fondo_negro borde table-striped">
+  <table  id="tabla-principal" class=" table fondo_negro borde table-striped">
     <thead class="">
       <th scope="col">#</th>
       <th scope="col" class="d-none d-lg-blok d-lg-table-cell ">Categoría</th>
@@ -66,6 +66,7 @@
   </div>
   
   <br>
+
   <div class="d-flex justify-content-end">
     <a href="{% url 'vaciar_carrito' %}" class="borde_redondo btn btn-dark mb-2"> Vaciar carrito </a>
     <a href="{% url 'comprar_ahora' %}" class="borde_redondo btn btn-dark mb-2"> Continuar al pago </a>
@@ -75,3 +76,18 @@
 
   
 {% endblock content %}
+{% block script %}
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+  <script>
+    $(document).ready(function() {
+      $('#tabla-principal').DataTable({
+        "language": {
+          "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+        }
+      });
+      
+    });
+  </script>
+{% endblock script %}

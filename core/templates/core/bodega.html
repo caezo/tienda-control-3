@@ -16,11 +16,11 @@
           <div class="col-md-4">
             <div class="text-center mb-2">
               {% if form.imagen.value %}
-                <img id="cuadro-imagen" src="/media/{{ form.imagen.value }}" class="img-thumbnail me-3"
-                     style="width: 250px; height: auto; object-fit: cover; background-color: #1A1A1A;">
+                <img id="cuadro-imagen" src="/media/{{ form.imagen.value }}" class="img-fluid"
+                     >
               {% else %}
-                <img id="cuadro-imagen" src="{% static 'core/img/sin-imagen.png' %}" class="img-thumbnail me-3"
-                     style="width: 250px; height: auto; object-fit: cover; background-color: #1A1A1A;">
+                <img id="cuadro-imagen" src="{% static 'core/img/Sin_foto.png' %}" class="img-fluid"
+                     >
               {% endif %}
             </div>
           </div>
