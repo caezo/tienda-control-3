@@ -355,21 +355,21 @@ def eliminar_usuario(request, id):
     usuario.delete()
     messages.success(request, 'Usuario eliminado con éxito')
     return redirect('usuarios')
+
 @user_passes_test(es_personal_autenticado_y_activo)
 def bodega(request):
 
     if request.method == 'POST':
-        producto_id=request.POST.get('producto')
-        producto =Producto.objects.get(id=producto_id)
-        cantidad=int(request.POST.get('cantidad'))
-        for i in range(1,cantidad+1):
+
+        producto_id = request.POST.get('producto')
+        producto = Producto.objects.get(id=producto_id)
+        cantidad = int(request.POST.get('cantidad'))
+        for cantidad in range(1, cantidad + 1):
             Bodega.objects.create(producto=producto)
-        
-            if cantidad == 1:
-                messages.success(request, f'Se ha agregado 1 nuevo "{producto.nombre}" a la bodega.')
-            else:
-                messages.success(request, f'Se han agregado {cantidad} nuevos "{producto.nombre}" a la bodega.')    
-        pass
+        if cantidad == 1:
+            messages.success(request, f'Se ha agregado 1 nuevo "{producto.nombre}" a la bodega.')
+        else:
+            messages.success(request, f'Se han agregado {cantidad} productos de "{producto.nombre}" a la bodega.')
 
     registros = Bodega.objects.all()
     lista = []
